@@ -19,16 +19,14 @@ if ( isset($_POST['logout']) ) {
 <html>
 <head>
 <title>Customer Service App</title>
-<?php require_once "bootstrap.php"; ?>
+<link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-<div class="container">
-<h1>Welcome to CSA</h1>
-<p><strong>Note:</strong> This app is still in development
-</p>
-<p>
-<a href="#">I'm a Client</a> | <a href="login.php">I'm a Professional</a>
-</p>
+<div class="container jumbotron">
+<h1>Welcome to CSA</h1><br>
+
+<a href="#" class="btn btn-primary">I'm a Client</a> <a href="login.php" class="btn btn-primary">I'm a Professional</a>
+
 </div>
 </body>
 

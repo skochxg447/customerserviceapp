@@ -25,10 +25,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = $_POST['name'];
     $email = $_POST['email'];
     $phone = $_POST['phone'];
-    $time_before_greeting = $_POST['time_before_greeting'];
-    $server_formality = $_POST['server_formality'];
-    $jokes = $_POST['jokes'];
-    $server_frequency = $_POST['server_frequency'];
+    $time_before_greeting = isset($_POST['time_before_greeting']) ? $_POST['time_before_greeting'] : 0;
+    $server_formality = isset($_POST['server_formality']) ? $_POST['server_formality'] : 0;
+    $jokes = isset($_POST['jokes']) ? $_POST['jokes'] : -1;
+    $server_frequency = isset($_POST['server_frequency']) ? $_POST['server_frequency'] : 0;
 
     // Open SQLite database connection
     $db = new SQLite3('clientlist.db');
@@ -57,8 +57,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->execute();
 
     // Redirect the user to the client list page
-    header("Location: search.php");
-    exit();
+    header("Location: search.php?search=$name");
+    return;
 }
 ?>
 
@@ -66,12 +66,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html>
 <head>
     <title>CSA Add Client</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <?php require_once "bootstrap.php"; ?>
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
     <div class="container">
-        <?php require_once "bootstrap.php"; ?>
         <div class="page-header">
             <h1>Add Client</h1>
         </div>
@@ -90,44 +89,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
             <div class="form-group">
                 <label for="time_before_greeting">Time Before Greeting:</label>
-                <select name="time_before_greeting" class="form-control">
-                    <option value="0">--Please Select--</option>
-                    <option value="1">1 min</option>
-                    <option value="2">2 min</option>
-                    <option value="3">3 min</option>
-                    <option value="4">4 min</option>
-                    <option value="5">5 min</option>
-                </select>
+                <input type="number" name="time_before_greeting" min="0" max="10" class="form-control">
             </div>
             <div class="form-group">
                 <label for="server-formality">Server Formality:</label>
                 <select name="server_formality" class="form-control">
-                    <option value="-1">--Please Select--</option>
-                    <option value="0">Very Formal</option>
-                    <option value="1">Formal</option>
+                    <option value="0">--Please Select--</option>
+                    <option value="1">Very Casual</option>
                     <option value="2">Casual</option>
-                    <option value="3">Very Casual</option>
+                    <option value="3">Formal</option>
+                    <option value="4">Very Formal</option>
                 </select>
             </div>
             <div class="form-group">
                 <label for="jokes">Jokes:</label>
                 <div class="radio">
                     <label>
-                        <input type="radio" name="jokes" value="1">Yes
+                        <input type="radio" name="jokes" value="0">No
                     </label>
                 </div>
                 <div class="radio">
                     <label>
-                        <input type="radio" name="jokes" value="0">No
+                        <input type="radio" name="jokes" value="1">Yes
                     </label>
                 </div>
             </div>
             <div class="form-group">
-                <label for="server_frequency">Server Frequency:</label>
+                <label for="server_frequency">Server Frequency: (how often the server should stop by)</label>
                 <input type="range" class="form-control-range" name="server_frequency" min="1" max="100" value="50" class="form-control">
             </div>
-            <input type="submit" name="logout" value="Logout" class="btn btn-primary">
             <input type="submit" value="Submit" class="btn btn-primary">
+            <a href="search.php" class="btn btn-primary">Cancel</a>
         </form>
     </div>
 </body>

@@ -1,13 +1,6 @@
 <?php
 session_start(); // Start the session
 
-// Check if the user is already logged in
-if (isset($_SESSION['user_id'])) {
-    // Redirect to the dashboard page
-    header("Location: search.php");
-    exit();
-}
-
 // Check if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Get the form data
@@ -53,27 +46,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <!DOCTYPE html>
 <html>
 <head>
-    <?php require_once "bootstrap.php"; ?>
+    <link rel="stylesheet" type="text/css" href="style.css">
     <title>CSA Login Page</title>
 </head>
   <body>
     <div class="container">
-    <h2>Login</h2>
+    <h1>Login</h1><br>
     <form method="post" action="login.php">
-      <label for="email">Email:</label>
-      <input type="email" id="email" name="email" required><br><br>
-      <label for="password">Password:</label>
-      <input type="password" id="password" name="password" required><br><br>
-      <?php if (!empty($emailErr)) { ?>
-        <p style="color: red;"><?php echo $emailErr; ?></p>
-      <?php } ?>
-      <?php if (!empty($passwordErr)) { ?>
-        <p style="color: red;"><?php echo $passwordErr; ?></p>
-      <?php } ?>
+      <p><label for="email">Email:</label>
+        <input type="email" id="email" name="email" class="form-control" required><br><br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" class="form-control" required><br><br>
+      </p>
       <a href="index.php" class="btn btn-primary">Back</a>
       <input type="submit" value="Login" class="btn btn-primary">
     </form><br>
-    <a href="account.php">Create New Account</a>
+    <a id="account" href="account.php">Create New Account</a>
     </div>
   </body>
 </html>
