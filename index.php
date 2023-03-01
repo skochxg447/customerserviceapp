@@ -18,8 +18,10 @@ if ( isset($_POST['logout']) ) {
 <!DOCTYPE html>
 <html>
 <head>
-<title>Customer Service App</title>
-<link rel="stylesheet" type="text/css" href="style.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Customer Service App</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
 <div class="container jumbotron">

@@ -1,25 +1,49 @@
+
 body {
   font-family: sans-serif;
   background-color: #280067;
   color: #000;
 }
 
+input.input-small {
+    width: 250px;
+    align-items: center;
+}
 .container {
-  max-width: 80%;
-  margin: 0 auto;
-  text-align: center;
-  margin-top: 4em;
-  background-color: #fff;
-  overflow: auto;
-  border-radius: 10px;
-  padding: 2em;
-  box-shadow: 0 0 10px #ccc;
+    max-width: 80%;
+    margin: 0 auto;
+    text-align: center;
+    margin-top: 4em;
+    background-color: #fff;
+    overflow: auto;
+    border-radius: 10px;
+    padding: 2em;
+    box-shadow: 0 0 10px #ccc;
 }
 .container p {
-  text-align: left;
-  margin: 0 auto;
+    text-align: left;
+    margin: 0 auto;
+}
+.login {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
+.form-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form-group label {
+  margin-bottom: 0.5em;
+  text-align: left;
+  display: inline-block;
+  width: 100px;
+  margin-right: 9em;
+}
 
 .result-table {
   margin: 0 auto;
@@ -36,6 +60,20 @@ body {
 .result-table tbody td {
   padding-left: 1em;
 }
+
+.result-table th {
+  cursor: pointer;
+  background-color: #f2f2f2;
+  border-radius: 10px;
+  font-weight: bold;
+  padding: 10px;
+  text-align: left;
+}
+
+.result-table th:hover {
+  background-color: #e0e0e0;
+}
+
 
 
 h1 {

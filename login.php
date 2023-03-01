@@ -46,21 +46,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="style.css">
     <title>CSA Login Page</title>
 </head>
   <body>
     <div class="container">
     <h1>Login</h1><br>
+    <div class="login">
     <form method="post" action="login.php">
-      <p><label for="email">Email:</label>
-        <input type="email" id="email" name="email" class="form-control" required><br><br>
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" class="form-control input-small" required>
+      </div>
+      <br>
+      <div class="form-group">
         <label for="password">Password:</label>
-        <input type="password" id="password" name="password" class="form-control" required><br><br>
-      </p>
-      <a href="index.php" class="btn btn-primary">Back</a>
-      <input type="submit" value="Login" class="btn btn-primary">
-    </form><br>
+        <input type="password" id="password" name="password" class="form-control input-small" required>
+      </div>
+      <div>
+        <br>
+        <a href="index.php" class="btn btn-primary">Back</a>
+        <input type="submit" value="Login" class="btn btn-primary">
+      </div>
+    </form>
     <a id="account" href="account.php">Create New Account</a>
     </div>
   </body>
