@@ -8,7 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST["password"];
 
     // Connect to the database
-    $db = new SQLite3('professionaluser.db');
+    $db = new SQLite3('clientuser.db');
 
     // Create the users table if it doesn't exist
     $db->exec('CREATE TABLE IF NOT EXISTS users (
@@ -33,9 +33,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (password_verify($password, $row['password'])) {
             // Authentication successful, store the user ID in the session
             $_SESSION['user_id'] = $row['id'];
-            
+            var_dump($_SESSION);
+
             // Redirect to the dashboard page
-            header("Location: search.php");
+            header("Location:clientaccount.php");
             exit();
         } else {
             // Invalid password, set an error message
@@ -52,17 +53,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 // Fall through into the View
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="style.css">
-    <title>CSA Professional Login Page</title>
+    <title>CSA Client Login Page</title>
 </head>
   <body>
     <div class="container">
-    <h1>Professional Login</h1><br>
+    <h1>Client Login</h1><br>
     <div class="login">
     <form method="post" action="login.php">
       <div class="form-group">
@@ -80,7 +82,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <input type="submit" value="Login" class="btn btn-primary">
       </div>
     </form>
-    <a id="account" href="account.php">Create New Account</a>
+    <a id="account" href="clientaccount.php">Create New Account</a>
     </div>
   </body>
 </html>

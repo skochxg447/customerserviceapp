@@ -4,7 +4,7 @@ session_start(); // Start the session
 // Check if the user is not logged in
 if (!isset($_SESSION['user_id'])) {
     // Redirect to the login page
-    header("Location: login.php");
+    header("Location: clientlogin.php");
     exit();
 }
 
@@ -23,23 +23,11 @@ if (isset($_POST['logout'])) {
 
 if (isset($_POST['addclient'])) {
     
-    header('Location: addclient.php');
+    header('Location: clientaddclient.php');
     return;
 }
 
 $db = new SQLite3('clientlist.db');
-
-// Create the clients table if it doesn't exist yet
-$db->exec('CREATE TABLE IF NOT EXISTS clients (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL,
-    email TEXT NOT NULL,
-    phone TEXT NOT NULL,
-    time_before_greeting INTEGER NOT NULL,
-    server_formality INTEGER NOT NULL,
-    jokes INTEGER NOT NULL,
-    server_frequency INTEGER NOT NULL
-)');
 
 // Check if delete form was submitted
 if (isset($_POST['delete'])) {

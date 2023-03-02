@@ -1,5 +1,4 @@
 <?php
-
 session_start();
 // define variables and set to empty values
 $nameErr = $emailErr = $passwordErr = "";
@@ -38,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($nameErr == "" && $emailErr == "" && $passwordErr == "") {
         // Insert data into database
-        $db = new SQLite3('professionaluser.db');
+        $db = new SQLite3('clientuser.db');
 
         // Create users table if not exists
         $db->exec("CREATE TABLE IF NOT EXISTS users (
@@ -61,7 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             VALUES ('$name', '$email', '$hashed_password')";
 
             if ($db->exec($sql)) {
-                echo "<div class='container'>New record created successfully</div>";
+                echo "<div class='container'>New account created successfully</div>";
             } else {
                 echo "Error: " . $sql . "<br>" . $db->lastErrorMsg();
             }
@@ -69,6 +68,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $db->close();
     }
+    header("Location: clientlogin.php");
+    return;
 }
 
 function test_input($data) {
