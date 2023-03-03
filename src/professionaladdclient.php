@@ -2,9 +2,9 @@
 session_start(); // Start the session
 
 // Check if the user is not logged in
-if (!isset($_SESSION['user_id'])) {
+if (!isset($_SESSION['professional_id'])) {
     // Redirect to the login page
-    header("Location: login.php");
+    header("Location: professionallogin.php");
     exit();
 }
 
@@ -57,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->execute();
 
     // Redirect the user to the client list page
-    header("Location: search.php?search=$name");
+    header("Location: professionalsearch.php?search=$name");
     return;
 }
 ?>
@@ -122,7 +122,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <br><pre>^Go Away       Stay Forever^</pre>
             </div>
             <input type="submit" value="Submit" class="btn btn-primary">
-            <a href="search.php" class="btn btn-primary">Cancel</a>
+            <a href="professionalsearch.php" class="btn btn-primary">Cancel</a>
         </form>
     </div>
 </body>

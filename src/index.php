@@ -27,7 +27,7 @@ if ( isset($_POST['logout']) ) {
 <div class="container jumbotron login-page">
 <h1>Welcome to CSA</h1><br>
 
-<a href="clientlogin.php" class="btn btn-primary">I'm a Client</a> <a href="login.php" class="btn btn-primary">I'm a Professional</a>
+<a href="clientlogin.php" class="btn btn-primary">I'm a Client</a> <a href="professionallogin.php" class="btn btn-primary">I'm a Professional</a>
 
 </div>
 </body>

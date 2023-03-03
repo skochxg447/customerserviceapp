@@ -9,7 +9,7 @@ if (isset($_POST['submit'])) { // check if the login form has been submitted
   $password = $_POST['password'];
 
   // connect to the SQLite database
-  $db = new SQLite3('clientuser.db');
+  $db = new SQLite3('db/clientuser.db');
 
   // prepare a SQL statement to select the user with the given email
   $stmt = $db->prepare('SELECT * FROM users WHERE email = :email');
@@ -26,9 +26,9 @@ if (isset($_POST['submit'])) { // check if the login form has been submitted
   if ($user && password_verify($password, $user['password'])) { // if a user was found with the given email and verified the password
 
     // set session variables for the user
-    $_SESSION['user_id'] = $user['id'];
+    $_SESSION['client_id'] = $user['id'];
 
-    // redirect to the clientedit.php page
+    // redirect to the clientprofessionaledit.php page
     header('Location: clientdashboard.php');
     exit();
 
@@ -71,7 +71,7 @@ if (isset($_POST['submit'])) { // check if the login form has been submitted
         <input type="submit" name="submit" value="Login" class="btn btn-primary">
       </form>
     </div>
-    <a id="account" href="clientaccount.php">Create New Account</a>
+    <a id="account" href="clientprofessionalcreateaccount.php">Create New Account</a>
   </div>
 </body>
 </html>
@@ -89,7 +89,7 @@ if (isset($_POST['submit'])) { // check if the login form has been submitted
     <div class="container">
     <h1>Client Login</h1><br>
     <div class="login">
-    <form method="post" action="login.php">
+    <form method="post" action="professionallogin.php">
       <div class="form-group">
         <label for="email">Email:</label>
         <input type="email" id="email" name="email" class="form-control input-small" required>
@@ -103,10 +103,10 @@ if (isset($_POST['submit'])) { // check if the login form has been submitted
         <br>
         <a href="index.php" class="btn btn-primary">Back</a>
         <input type="submit" value="Login" class="btn btn-primary">
-        <a href="clientedit.php">test link</a>
+        <a href="clientprofessionaledit.php">test link</a>
       </div>
     </form>
-    <a id="account" href="clientaccount.php">Create New Account</a>
+    <a id="account" href="clientprofessionalcreateaccount.php">Create New Account</a>
     </div>
   </body>
 </html> -->

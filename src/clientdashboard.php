@@ -1,9 +1,28 @@
 <?php
 session_start(); // start the PHP session
 
+// If the user requested logout go back to index.php
+if (isset($_POST['logout'])) {
+    
+    // Unset all session variables
+    session_unset();
+
+    // Destroy the session
+    session_destroy();
+
+    header('Location: index.php');
+    return;
+}
+
+if (isset($_POST['addclient'])) {
+    
+    header('Location: professionaladdclient.php');
+    return;
+}
+
 // check if the user is logged in
-if (!isset($_SESSION['user_id'])) {
-    header('Location: login.php');
+if (!isset($_SESSION['client_id'])) {
+    header('Location: clientlogin.php');
     exit();
 }
 
@@ -14,19 +33,13 @@ $db = new SQLite3('clientuser.db');
 $stmt = $db->prepare('SELECT * FROM users WHERE id = :id');
 
 // bind the parameters to the statement
-$stmt->bindParam(':id', $_SESSION['user_id']);
+$stmt->bindParam(':id', $_SESSION['client_id']);
 
 // execute the statement
 $result = $stmt->execute();
 
 // fetch the user's information
 $user = $result->fetchArray(SQLITE3_ASSOC);
-
-// check if user data was found
-if (!$user) {
-  header('Location: login.php');
-  exit();
-}
 
 // assign user data to variables
 $name = isset($user['name']) ? $user['name'] : '';
@@ -54,14 +67,14 @@ $server_frequency = isset($user['server_frequency']) ? $user['server_frequency']
    </div>
    <div class="container">
       <form method="post">
-         <input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id']; ?>">
+         <input type="hidden" name="client_id" value="<?php echo $_SESSION['client_id']; ?>">
          <div class="form-group">
             <label for="name">Name:</label>
-            <input type="text" class="form-control input-small" id="name" name="name" value="<?php echo $user['name']; ?>" required>
+            <input type="text" class="form-control input-small" id="name" name="name" value="<?= isset($user['name']) ? $user['name'] : '' ?>" required>
          </div>
          <div class="form-group">
             <label for="email">Email:</label>
-            <input type="email" class="form-control input-small" id="email" name="email" value="<?php echo $user['email']; ?>" required>
+            <input type="email" class="form-control input-small" id="email" name="email" value="<?= isset($user['email']) ? $user['email'] : '' ?>" required>
          </div>
          <div class="form-group">
             <label for="phone">Phone:</label>
@@ -69,7 +82,7 @@ $server_frequency = isset($user['server_frequency']) ? $user['server_frequency']
          </div>
          <div class="form-group">
             <label for="time_before_greeting">Time before greeting (in minutes):</label>
-            <input type="number" class="form-control input-small" id="time_before_greeting" name="time_before_greeting" min="0" max="10"value="<?php echo $user['time_before_greeting']; ?>">
+            <input type="number" class="form-control input-small" id="time_before_greeting" name="time_before_greeting" min="0" max="10" value="<?php echo isset($user['time_before_greeting']) ? $user['time_before_greeting'] : ''; ?>">
          </div>
          <div class="form-group">
             <label for="server_formality">Server formality:</label>
@@ -98,7 +111,8 @@ $server_frequency = isset($user['server_frequency']) ? $user['server_frequency']
             <label for="server_frequency">Server frequency: how often the server should stop by</label>
             <input type="range" class="form-control-range input-small" id="server_frequency" name="server_frequency" min="0" max="100" value="<?php echo $user['server_frequency']; ?>">
          </div>
-         <button type="submit" class="btn btn-primary" name="save">Save</button>
+         <input type="submit" name="logout" value="Logout" class="btn btn-primary">
+         <input type="submit" class="btn btn-primary" name="save">Save</button>
       </form>
    </div>
 </body>

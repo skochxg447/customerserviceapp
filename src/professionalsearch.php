@@ -2,9 +2,9 @@
 session_start(); // Start the session
 
 // Check if the user is not logged in
-if (!isset($_SESSION['user_id'])) {
+if (!isset($_SESSION['professional_id'])) {
     // Redirect to the login page
-    header("Location: login.php");
+    header("Location: professionallogin.php");
     exit();
 }
 
@@ -23,7 +23,7 @@ if (isset($_POST['logout'])) {
 
 if (isset($_POST['addclient'])) {
     
-    header('Location: addclient.php');
+    header('Location: professionaladdclient.php');
     return;
 }
 
@@ -51,7 +51,7 @@ if (isset($_POST['delete'])) {
     $result = $stmt->execute();
 
     // Redirect to the search page with success message
-    header("Location: search.php?success=Client+deleted");
+    header("Location: professionalsearch.php?success=Client+deleted");
     exit();
 }
 
@@ -115,7 +115,7 @@ if (isset($_GET['search'])) {
                                 <td><?php echo $row['server_formality'] == 1 ? "Very Casual" : ($row['server_formality'] == 2 ? "Casual" : ($row['server_formality'] == 3 ? "Formal" : ($row['server_formality'] == 4 ? "Very Formal" : "-"))); ?></td>
                                 <td><?php echo $row['jokes'] == 0 ? "No Jokes" : ($row['jokes'] == 1 ? "Jokes" : "-"); ?></td>
                                 <td><?php echo $row['server_frequency']; ?>%</td>
-                                <td><a href="edit.php?id=<?php echo $row['id']; ?>" class="btn btn-secondary">Edit</a></td>
+                                <td><a href="professionaledit.php?id=<?php echo $row['id']; ?>" class="btn btn-secondary">Edit</a></td>
                                 <td>
                                     <form method="POST" onsubmit="return confirm('Are you sure you want to delete this client?');">
                                         <input type="hidden" name="id" value="<?php echo $row['id']; ?>">

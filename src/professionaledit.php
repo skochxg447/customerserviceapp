@@ -2,9 +2,9 @@
 session_start(); // Start the session
 
 // Check if the user is not logged in
-if (!isset($_SESSION['user_id'])) {
+if (!isset($_SESSION['professional_id'])) {
     // Redirect to the login page
-    header("Location: login.php");
+    header("Location: professionallogin.php");
     exit();
 }
 
@@ -46,7 +46,7 @@ if (isset($_POST['save'])) {
     $result = $stmt->execute();
 
     // Redirect to search page
-    header("Location: search.php?search=$name");
+    header("Location: professionalsearch.php?search=$name");
     return;
 }
 
@@ -121,7 +121,7 @@ $client = $result->fetchArray();
                 <input type="range" class="form-control-range input-small" id="server_frequency" name="server_frequency" min="0" max="100" value="<?php echo $client['server_frequency']; ?>">
             </div>
             <button type="submit" class="btn btn-primary" name="save">Save</button>
-            <a href="search.php" class="btn btn-primary">Cancel</a>
+            <a href="professionalsearch.php" class="btn btn-primary">Cancel</a>
         </form>
     </div>
 </body>

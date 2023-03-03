@@ -52,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->bindParam(':email', $email);
         $result = $stmt->execute();
         if ($result->fetchArray()) {
-            $emailErr = "Email already exists";
+            echo "<div class='container'>Email already exists</div>";
         } else {
             // Hash password before storing
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
@@ -64,7 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt->bindParam(':password', $hashed_password);
 
             if ($stmt->execute()) {
-                echo "<div class='container'>New record created successfully</div>";
+                echo "<div class='container' style='red">New record created successfully</div>";
             } else {
                 echo "Error: " . $stmt->errorInfo()[2];
             }
@@ -104,7 +104,7 @@ function test_input($data) {
         <input type="password" id="password" name="password" class="form-control" required><br><br>
       </p>
         <br><br>
-      <a href="login.php" class="btn btn-primary">Back</a>
+      <a href="professionallogin.php" class="btn btn-primary">Back</a>
       <input type="submit" value="Submit" class="btn btn-primary">
     </form>
     </div>
