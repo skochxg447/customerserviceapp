@@ -27,7 +27,7 @@ if (isset($_POST['addclient'])) {
     return;
 }
 
-$db = new SQLite3('clientlist.db');
+$db = new SQLite3('db/clientlist.db');
 
 // Check if delete form was submitted
 if (isset($_POST['delete'])) {

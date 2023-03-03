@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $server_frequency = isset($_POST['server_frequency']) ? $_POST['server_frequency'] : 0;
 
     // Open SQLite database connection
-    $db = new SQLite3('clientlist.db');
+    $db = new SQLite3('db/clientlist.db');
 
     // Create the clients table if it doesn't exist yet
     $db->exec('CREATE TABLE IF NOT EXISTS clients (

@@ -18,7 +18,7 @@ if (isset($_POST['logout'])) {
     return;
 }
 
-$db = new SQLite3('clientlist.db');
+$db = new SQLite3('db/clientlist.db');
 $client_id = $_GET['id'];
 
 // If the form was submitted, update the client record

@@ -36,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($nameErr == "" && $emailErr == "" && $passwordErr == "") {
         // Insert data into database
-        $db = new SQLite3('professionaluser.db');
+        $db = new SQLite3('db/professionaluser.db');
 
         // Create users table if not exists
         $db->exec("CREATE TABLE IF NOT EXISTS users (
