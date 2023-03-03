@@ -3,7 +3,7 @@ name: Lint
 on:
   push:
     branches:
-      - '**' # Run on all branches
+      - "**" # Run on all branches
 
 jobs:
   run-linters:

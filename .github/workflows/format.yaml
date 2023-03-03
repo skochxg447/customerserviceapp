@@ -3,11 +3,11 @@ name: Format (PHP)
 on:
   pull_request:
     paths:
-      - '**.php'
+      - "**.php"
 
 jobs:
   php-cs-fixer:
-    runs-on: ubuntu-latest
+    runs-on: ubuntud-latest
     steps:
       - uses: actions/checkout@v2
         with:
