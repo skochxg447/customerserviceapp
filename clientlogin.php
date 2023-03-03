@@ -1,60 +1,83 @@
-<?php
-session_start(); // Start the session
+<?php session_start(); // start the PHP session
 
-// Check if the form is submitted
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Get the form data
-    $email = $_POST["email"];
-    $password = $_POST["password"];
+$error = null;
 
-    // Connect to the database
-    $db = new SQLite3('clientuser.db');
+if (isset($_POST['submit'])) { // check if the login form has been submitted
 
-    // Create the users table if it doesn't exist
-    $db->exec('CREATE TABLE IF NOT EXISTS users (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT,
-        email TEXT UNIQUE,
-        password TEXT
-    )');
+  // get the email and password from the form
+  $email = $_POST['email'];
+  $password = $_POST['password'];
 
-    // Prepare the SQL statement to select the user with the given email
-    $stmt = $db->prepare("SELECT * FROM users WHERE email = :email");
+  // connect to the SQLite database
+  $db = new SQLite3('clientuser.db');
 
-    // Bind the email parameter to the SQL statement
-    $stmt->bindValue(':email', $email, SQLITE3_TEXT);
+  // prepare a SQL statement to select the user with the given email
+  $stmt = $db->prepare('SELECT * FROM users WHERE email = :email');
 
-    // Execute the SQL statement
-    $result = $stmt->execute();
+  // bind the parameters to the statement
+  $stmt->bindParam(':email', $email);
 
-    // Check if the user exists and the password matches
-    if ($row = $result->fetchArray()) {
-        // Verify the password
-        if (password_verify($password, $row['password'])) {
-            // Authentication successful, store the user ID in the session
-            $_SESSION['user_id'] = $row['id'];
-            var_dump($_SESSION);
+  // execute the statement
+  $result = $stmt->execute();
 
-            // Redirect to the dashboard page
-            header("Location:clientaccount.php");
-            exit();
-        } else {
-            // Invalid password, set an error message
-            $passwordErr = "Invalid password";
-        }
-    } else {
-        // User not found, set an error message
-        $emailErr = "User not found";
-    }
+  // fetch the first row of the result set
+  $user = $result->fetchArray(SQLITE3_ASSOC);
 
-    // Close the database connection
-    $db->close();
+  if ($user && password_verify($password, $user['password'])) { // if a user was found with the given email and verified the password
+
+    // set session variables for the user
+    $_SESSION['user_id'] = $user['id'];
+
+    // redirect to the clientedit.php page
+    header('Location: clientdashboard.php');
+    exit();
+
+  } else { // if no user was found with the given email or password did not verify
+
+    // display an error message
+    $error = 'Invalid email or password';
+
+  }
+
 }
-
-// Fall through into the View
 ?>
 
 <!DOCTYPE html>
+<html>
+<head>
+  <title>Client Login</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Client Login</h1>
+    <div class="login">
+      <form method="post">
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" name="email" id="email" class="form-control input-small" required>
+        </div>
+        <br>
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" name="password" id="password" class="form-control input-small" required>
+        </div>
+        <br>
+<?php if ($error != null): ?>
+  <?= $error ?><br>
+<?php endif; ?>
+        <input type="submit" name="submit" value="Login" class="btn btn-primary">
+      </form>
+    </div>
+    <a id="account" href="clientaccount.php">Create New Account</a>
+  </div>
+</body>
+</html>
+
+
+<!-- <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
@@ -80,9 +103,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <br>
         <a href="index.php" class="btn btn-primary">Back</a>
         <input type="submit" value="Login" class="btn btn-primary">
+        <a href="clientedit.php">test link</a>
       </div>
     </form>
     <a id="account" href="clientaccount.php">Create New Account</a>
     </div>
   </body>
-</html>
+</html> -->

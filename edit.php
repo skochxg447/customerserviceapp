@@ -79,23 +79,23 @@ $client = $result->fetchArray();
             <input type="hidden" name="client_id" value="<?php echo $client_id; ?>">
             <div class="form-group">
                 <label for="name">Name:</label>
-                <input type="text" class="form-control" id="name" name="name" value="<?php echo $client['name']; ?>" required>
+                <input type="text" class="form-control input-small" id="name" name="name" value="<?php echo $client['name']; ?>" required>
             </div>
             <div class="form-group">
                 <label for="email">Email:</label>
-                <input type="email" class="form-control" id="email" name="email" value="<?php echo $client['email']; ?>" required>
+                <input type="email" class="form-control input-small" id="email" name="email" value="<?php echo $client['email']; ?>" required>
             </div>
             <div class="form-group">
                 <label for="phone">Phone:</label>
-                <input type="text" class="form-control" id="phone" name="phone" value="<?php echo $client['phone']; ?>" required>
+                <input type="text" class="form-control input-small" id="phone" name="phone" value="<?php echo $client['phone']; ?>" required>
             </div>
             <div class="form-group">
                 <label for="time_before_greeting">Time before greeting (in minutes):</label>
-                <input type="number" class="form-control" id="time_before_greeting" name="time_before_greeting" min="0" max="10"value="<?php echo $client['time_before_greeting']; ?>">
+                <input type="number" class="form-control input-small" id="time_before_greeting" name="time_before_greeting" min="0" max="10"value="<?php echo $client['time_before_greeting']; ?>">
             </div>
             <div class="form-group">
                 <label for="server_formality">Server formality:</label>
-                <select class="form-control" id="server_formality" name="server_formality">
+                <select class="form-control input-small" id="server_formality" name="server_formality">
                     <option value="0" <?php if ($client['server_formality'] == 0) echo "selected"; ?>>--Please Select--</option>
                     <option value="1" <?php if ($client['server_formality'] == 1) echo "selected"; ?>>Very Casual</option>
                     <option value="2" <?php if ($client['server_formality'] == 2) echo "selected"; ?>>Casual</option>
@@ -118,7 +118,7 @@ $client = $result->fetchArray();
             </div>
             <div class="form-group">
                 <label for="server_frequency">Server frequency: how often the server should stop by</label>
-                <input type="range" class="form-control-range" id="server_frequency" name="server_frequency" min="0" max="100" value="<?php echo $client['server_frequency']; ?>">
+                <input type="range" class="form-control-range input-small" id="server_frequency" name="server_frequency" min="0" max="100" value="<?php echo $client['server_frequency']; ?>">
             </div>
             <button type="submit" class="btn btn-primary" name="save">Save</button>
             <a href="search.php" class="btn btn-primary">Cancel</a>

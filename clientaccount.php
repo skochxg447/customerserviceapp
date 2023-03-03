@@ -48,8 +48,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         )");
 
         // Check if email already exists in the database
-        $sql = "SELECT * FROM users WHERE email = '$email'";
-        $result = $db->query($sql);
+        $sql = "INSERT INTO users (name, email, password) VALUES (:name, :email, :password)";
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(':name', $name);
+        $stmt->bindParam(':email', $email);
+        $stmt->bindParam(':password', $hashed_password);
+        if ($stmt->execute()) {
+            echo "<div class='container'>New account created successfully</div>";
+        } else {
+            echo "Error: " . $sql . "<br>" . $db->lastErrorMsg();
+        }
+
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(':email', $email);
+        $result = $stmt->execute();
         if ($result->fetchArray()) {
             $emailErr = "Email already exists";
         } else {
@@ -57,9 +69,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
             $sql = "INSERT INTO users (name, email, password)
-            VALUES ('$name', '$email', '$hashed_password')";
+            VALUES (:name, :email, :hashed_password)";
 
-            if ($db->exec($sql)) {
+            $stmt = $db->prepare($sql);
+            $stmt->bindParam(':name', $name);
+            $stmt->bindParam(':email', $email);
+            $stmt->bindParam(':hashed_password', $hashed_password);
+            if ($stmt->execute()) {
                 echo "<div class='container'>New account created successfully</div>";
             } else {
                 echo "Error: " . $sql . "<br>" . $db->lastErrorMsg();
@@ -78,6 +94,7 @@ function test_input($data) {
     $data = htmlspecialchars($data);
     return $data;
 }
+
 ?>
 
 <!DOCTYPE html>

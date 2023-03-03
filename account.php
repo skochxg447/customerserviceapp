@@ -1,5 +1,4 @@
-<?php
-
+<?php 
 session_start();
 // define variables and set to empty values
 $nameErr = $emailErr = $passwordErr = "";
@@ -49,27 +48,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         )");
 
         // Check if email already exists in the database
-        $sql = "SELECT * FROM users WHERE email = '$email'";
-        $result = $db->query($sql);
+        $stmt = $db->prepare("SELECT * FROM users WHERE email = :email");
+        $stmt->bindParam(':email', $email);
+        $result = $stmt->execute();
         if ($result->fetchArray()) {
             $emailErr = "Email already exists";
         } else {
             // Hash password before storing
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-            $sql = "INSERT INTO users (name, email, password)
-            VALUES ('$name', '$email', '$hashed_password')";
+            $stmt = $db->prepare("INSERT INTO users (name, email, password)
+            VALUES (:name, :email, :password)");
+            $stmt->bindParam(':name', $name);
+            $stmt->bindParam(':email', $email);
+            $stmt->bindParam(':password', $hashed_password);
 
-            if ($db->exec($sql)) {
+            if ($stmt->execute()) {
                 echo "<div class='container'>New record created successfully</div>";
             } else {
-                echo "Error: " . $sql . "<br>" . $db->lastErrorMsg();
+                echo "Error: " . $stmt->errorInfo()[2];
             }
         }
 
         $db->close();
     }
 }
+
 
 function test_input($data) {
     $data = trim($data);
