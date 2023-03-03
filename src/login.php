@@ -8,7 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST["password"];
 
     // Connect to the database
-    $db = new SQLite3('professionaluser.db');
+    $db = new SQLite3('db/professionaluser.db');
 
     // Prepare the SQL statement to select the user with the given email
     $stmt = $db->prepare("SELECT * FROM users WHERE email = :email");
