@@ -27,7 +27,7 @@ if (isset($_POST['addclient'])) {
     return;
 }
 
-$db = new SQLite3('clientlist.db');
+$db = new SQLite3('db/clientlist.db');
 
 // Create the clients table if it doesn't exist yet
 $db->exec('CREATE TABLE IF NOT EXISTS clients (
