@@ -1,4 +1,3 @@
-
 body {
   font-family: sans-serif;
   background-color: #280067;
@@ -10,9 +9,8 @@ body {
 }
 
 input.input-small {
-  width: 250px !important;
+  width: 250px;
   align-items: center;
-  text-align: left;
 }
 .input-small {
   width: 250px !important;
@@ -41,14 +39,14 @@ input.search {
 }
 
 .container p {
-    text-align: left;
-    margin: 0 auto;
+  text-align: left;
+  margin: 0 auto;
 }
 .login {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .form-group {
@@ -114,16 +112,16 @@ h2 {
 }
 
 .jumbotron {
-    background-color: #fef9fa;;
-    padding: 20px;
-    margin-top: 50px;
-    margin-bottom: 50px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px #ccc;
+  background-color: #fef9fa;
+  padding: 20px;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #ccc;
 }
 
 .btn {
-  cursor:pointer;
+  cursor: pointer;
   display: inline-block;
   padding: 10px 20px;
   margin: 10px;
@@ -143,30 +141,30 @@ h2 {
   text-decoration: none;
 }
 .btn-primary {
-    color: #4cf0ec ;
-    background-image: linear-gradient(to bottom,#b733a5 0,#4e278a 100%);
-    background-repeat: repeat-x;
+  color: #4cf0ec;
+  background-image: linear-gradient(to bottom, #b733a5 0, #4e278a 100%);
+  background-repeat: repeat-x;
 }
 .btn-primary:active {
-    background-color: #4cf0ec;
-    border-color: #4cf0ec;
+  background-color: #4cf0ec;
+  border-color: #4cf0ec;
 }
 
 .btn-primary:hover {
-    color: #10ced6
-    background-color: #10ced6;
-    background-position: 0 -13px;
+  color: #10ced6;
+  background-color: #10ced6;
+  background-position: 0 -13px;
 }
-.btn-primary:active:hover,
-    background-color: #10ced6;
-    border-color: #10ced6;
+
+.btn-primary:active:hover {
+  background-color: #10ced6;
+  border-color: #10ced6;
 }
 
 a {
   color: #b733a5;
   text-decoration: none;
 }
-
 
 #account {
   color: #b733a5;
@@ -181,7 +179,7 @@ a {
   color: #10ced6;
 }
 
-#account:visited{
+#account:visited {
   text-decoration: none;
   color: #b733a5;
 }
@@ -203,8 +201,8 @@ a {
 }
 
 .form-group {
-    margin-inline: 10em;
-    text-align: center;
+  margin-inline: 10em;
+  text-align: center;
 }
 
 #search {
@@ -213,11 +211,10 @@ a {
 }
 
 input {
-
 }
-:after, :before {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
+:after,
+:before {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }
-
