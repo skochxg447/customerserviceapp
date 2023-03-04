@@ -9,17 +9,16 @@ permissions:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-#    - name: Validate composer.json and composer.lock
-#      run: composer validate --strict
+      #    - name: Validate composer.json and composer.lock
+      #      run: composer validate --strict
 
-    - name: Build docker image
-      run: make build
+      - name: Build docker image
+        run: make build
 
     # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
     # Docs: https://getcomposer.org/doc/articles/scripts.md

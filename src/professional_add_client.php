@@ -4,7 +4,7 @@ session_start(); // Start the session
 // Check if the user is not logged in
 if (!isset($_SESSION['professional_id'])) {
     // Redirect to the login page
-    header("Location: professionallogin.php");
+    header("Location: professional_login.php");
     exit();
 }
 
@@ -27,26 +27,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $phone = $_POST['phone'];
     $time_before_greeting = isset($_POST['time_before_greeting']) ? $_POST['time_before_greeting'] : 0;
     $server_formality = isset($_POST['server_formality']) ? $_POST['server_formality'] : 0;
-    $jokes = isset($_POST['jokes']) ? $_POST['jokes'] : -1;
+    $jokes = isset($_POST['jokes']) ? $_POST['jokes'] : 0;
     $server_frequency = isset($_POST['server_frequency']) ? $_POST['server_frequency'] : 0;
 
     // Open SQLite database connection
-    $db = new SQLite3('db/clientlist.db');
+    $db = new SQLite3('db/client_list.db');
 
     // Create the clients table if it doesn't exist yet
-    $db->exec('CREATE TABLE IF NOT EXISTS clients (
+    $db->exec('CREATE TABLE IF NOT EXISTS client_info (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT NOT NULL,
-        email TEXT NOT NULL,
-        phone TEXT NOT NULL,
-        time_before_greeting INTEGER NOT NULL,
-        server_formality INTEGER NOT NULL,
-        jokes INTEGER NOT NULL,
-        server_frequency INTEGER NOT NULL
+        name TEXT,
+        email TEXT,
+        phone TEXT,
+        time_before_greeting INTEGER,
+        server_formality INTEGER,
+        jokes INTEGER,
+        server_frequency INTEGER
     )');
 
     // Insert the data into the database
-    $stmt = $db->prepare('INSERT INTO clients (name, email, phone, time_before_greeting, server_formality, jokes, server_frequency) VALUES (:name, :email, :phone, :time_before_greeting, :server_formality, :jokes, :server_frequency)');
+    $stmt = $db->prepare('INSERT INTO client_info (name, email, phone, time_before_greeting, server_formality, jokes, server_frequency) VALUES (:name, :email, :phone, :time_before_greeting, :server_formality, :jokes, :server_frequency)');
     $stmt->bindValue(':name', $name, SQLITE3_TEXT);
     $stmt->bindValue(':email', $email, SQLITE3_TEXT);
     $stmt->bindValue(':phone', $phone, SQLITE3_TEXT);
@@ -57,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->execute();
 
     // Redirect the user to the client list page
-    header("Location: professionalsearch.php?search=$name");
+    header("Location: professional_search.php?search=$name");
     return;
 }
 ?>
@@ -118,11 +118,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
             <div class="form-group">
                 <label for="server_frequency">Server Frequency:</label>
-                <input type="range" class="form-control-range input-small" name="server_frequency" min="1" max="100" value="50" class="form-control">
+                <input type="range" class="form-control-range input-small" name="server_frequency" min="1" max="200" value="100" class="form-control">
                 <br><pre>^Go Away       Stay Forever^</pre>
             </div>
             <input type="submit" value="Submit" class="btn btn-primary">
-            <a href="professionalsearch.php" class="btn btn-primary">Cancel</a>
+            <a href="professional_search.php" class="btn btn-primary">Cancel</a>
         </form>
     </div>
 </body>

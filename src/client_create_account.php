@@ -38,18 +38,25 @@ if (empty($_POST["name"])) {
 
     if ($nameErr == "" && $emailErr == "" && $passwordErr == "") {
         // Insert data into database
-        $db = new SQLite3('db/clientuser.db');
+        $db = new SQLite3('db/client_user.db');
 
-        // Create users table if not exists
-        $db->exec("CREATE TABLE IF NOT EXISTS users (
+        // Create client_users table if not exists
+        $db->exec("CREATE TABLE IF NOT EXISTS client_users (
             id INTEGER PRIMARY KEY,
             name TEXT,
             email TEXT,
-            password TEXT
-        )");
+            password TEXT,
+            email TEXT,
+            phone TEXT,
+            time_before_greeting INTEGER,
+            server_formality INTEGER,
+            jokes INTEGER,
+            server_frequency INTEGER
+
+            )");
 
         // Check if email already exists in the database
-        $stmt = $db->prepare("SELECT * FROM users WHERE email = :email");
+        $stmt = $db->prepare("SELECT * FROM client_users WHERE email = :email");
         $stmt->bindParam(':email', $email);
         $result = $stmt->execute();
         if ($result->fetchArray()) {
@@ -58,7 +65,7 @@ if (empty($_POST["name"])) {
             // Hash password before storing
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-            $stmt = $db->prepare("INSERT INTO users (name, email, password)
+            $stmt = $db->prepare("INSERT INTO client_users (name, email, password)
             VALUES (:name, :email, :password)");
             $stmt->bindParam(':name', $name);
             $stmt->bindParam(':email', $email);
@@ -104,7 +111,7 @@ function test_input($data) {
         <input type="password" id="password" name="password" class="form-control" required><br><br>
       </p>
         <br><br>
-      <a href="professionallogin.php" class="btn btn-primary">Back</a>
+      <a href="client_login.php" class="btn btn-primary">Back</a>
       <input type="submit" value="Submit" class="btn btn-primary">
     </form>
     </div>
