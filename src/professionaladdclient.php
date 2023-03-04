@@ -2,9 +2,9 @@
 session_start(); // Start the session
 
 // Check if the user is not logged in
-if (!isset($_SESSION['user_id'])) {
+if (!isset($_SESSION['professional_id'])) {
     // Redirect to the login page
-    header("Location: login.php");
+    header("Location: professionallogin.php");
     exit();
 }
 
@@ -57,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->execute();
 
     // Redirect the user to the client list page
-    header("Location: search.php?search=$name");
+    header("Location: professionalsearch.php?search=$name");
     return;
 }
 ?>
@@ -79,23 +79,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <form method="post">
             <div class="form-group">
                 <label for="name">Name:</label>
-                <input type="text" name="name" class="form-control" required>
+                <input type="text" name="name" class="form-control input-small" required>
             </div>
             <div class="form-group">
                 <label for="email">Email:</label>
-                <input type="email" name="email" class="form-control" required>
+                <input type="email" name="email" class="form-control input-small" required>
             </div>
             <div class="form-group">
                 <label for="phone">Phone:</label>
-                <input type="text" name="phone" class="form-control" required>
+                <input type="text" name="phone" class="form-control input-small" required>
             </div>
             <div class="form-group">
-                <label for="time_before_greeting">Time Before Greeting:</label>
-                <input type="number" name="time_before_greeting" min="0" max="10" class="form-control">
+                <label for="time_before_greeting">Time Before Greeting (in minutes):</label>
+                <input type="number" name="time_before_greeting" min="0" max="10" class="form-control input-small">
             </div>
             <div class="form-group">
                 <label for="server-formality">Server Formality:</label>
-                <select name="server_formality" class="form-control">
+                <select name="server_formality" class="form-control input-small">
                     <option value="0">--Please Select--</option>
                     <option value="1">Very Casual</option>
                     <option value="2">Casual</option>
@@ -117,11 +117,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
             </div>
             <div class="form-group">
-                <label for="server_frequency">Server Frequency: (how often the server should stop by)</label>
-                <input type="range" class="form-control-range" name="server_frequency" min="1" max="100" value="50" class="form-control">
+                <label for="server_frequency">Server Frequency:</label>
+                <input type="range" class="form-control-range input-small" name="server_frequency" min="1" max="100" value="50" class="form-control">
+                <br><pre>^Go Away       Stay Forever^</pre>
             </div>
             <input type="submit" value="Submit" class="btn btn-primary">
-            <a href="search.php" class="btn btn-primary">Cancel</a>
+            <a href="professionalsearch.php" class="btn btn-primary">Cancel</a>
         </form>
     </div>
 </body>

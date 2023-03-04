@@ -2,9 +2,9 @@
 session_start(); // Start the session
 
 // Check if the user is not logged in
-if (!isset($_SESSION['user_id'])) {
+if (!isset($_SESSION['professional_id'])) {
     // Redirect to the login page
-    header("Location: login.php");
+    header("Location: professionallogin.php");
     exit();
 }
 
@@ -23,11 +23,23 @@ if (isset($_POST['logout'])) {
 
 if (isset($_POST['addclient'])) {
     
-    header('Location: addclient.php');
+    header('Location: professionaladdclient.php');
     return;
 }
 
 $db = new SQLite3('db/clientlist.db');
+
+// Create the clients table if it doesn't exist yet
+$db->exec('CREATE TABLE IF NOT EXISTS clients (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    email TEXT NOT NULL,
+    phone TEXT NOT NULL,
+    time_before_greeting INTEGER NOT NULL,
+    server_formality INTEGER NOT NULL,
+    jokes INTEGER NOT NULL,
+    server_frequency INTEGER NOT NULL
+)');
 
 // Check if delete form was submitted
 if (isset($_POST['delete'])) {
@@ -39,7 +51,7 @@ if (isset($_POST['delete'])) {
     $result = $stmt->execute();
 
     // Redirect to the search page with success message
-    header("Location: search.php?success=Client+deleted");
+    header("Location: professionalsearch.php?success=Client+deleted");
     exit();
 }
 
@@ -72,12 +84,13 @@ if (isset($_GET['search'])) {
     <div class="container">
         <h1>Client Search</h1>
         <form method="get">
-            <input type="text" name="search" placeholder="Search for clients..." class="form-control" id="search">
+            <input type="text" name="search" placeholder="Search for clients..." class="form-control input-small search" id="search">
             <input type="submit" value="Search" class="btn btn-primary">
         </form>
         <p>
             <?php if (isset($result) && $result !== null && $result->numColumns() > 0): 'No Results Found' ?>
                 <h2>Search Results</h2>
+                <div class="result-table-container">
                 <table class="result-table">
                     <thead>
                         <tr>
@@ -88,6 +101,8 @@ if (isset($_GET['search'])) {
                             <th onclick="sortTable(4)">Server Formality</th>
                             <th onclick="sortTable(5)">Jokes</th>
                             <th onclick="sortTable(6)">Server Frequency</th>
+                            <td></td>
+                            <td></td>
                         </tr>
                     </thead>
                     <tbody>
@@ -100,7 +115,7 @@ if (isset($_GET['search'])) {
                                 <td><?php echo $row['server_formality'] == 1 ? "Very Casual" : ($row['server_formality'] == 2 ? "Casual" : ($row['server_formality'] == 3 ? "Formal" : ($row['server_formality'] == 4 ? "Very Formal" : "-"))); ?></td>
                                 <td><?php echo $row['jokes'] == 0 ? "No Jokes" : ($row['jokes'] == 1 ? "Jokes" : "-"); ?></td>
                                 <td><?php echo $row['server_frequency']; ?>%</td>
-                                <td><a href="edit.php?id=<?php echo $row['id']; ?>" class="btn btn-secondary">Edit</a></td>
+                                <td><a href="professionaledit.php?id=<?php echo $row['id']; ?>" class="btn btn-secondary">Edit</a></td>
                                 <td>
                                     <form method="POST" onsubmit="return confirm('Are you sure you want to delete this client?');">
                                         <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
@@ -111,6 +126,7 @@ if (isset($_GET['search'])) {
                         <?php endwhile; ?>
                     </tbody>
                 </table>
+                </div>
             <?php endif; ?>
             <script src="server.js"></script>
         </p>

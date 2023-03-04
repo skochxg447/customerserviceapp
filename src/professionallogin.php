@@ -10,6 +10,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Connect to the database
     $db = new SQLite3('db/professionaluser.db');
 
+    // Create the users table if it doesn't exist
+    $db->exec('CREATE TABLE IF NOT EXISTS users (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT,
+        email TEXT UNIQUE,
+        password TEXT
+    )');
+
     // Prepare the SQL statement to select the user with the given email
     $stmt = $db->prepare("SELECT * FROM users WHERE email = :email");
 
@@ -24,9 +32,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Verify the password
         if (password_verify($password, $row['password'])) {
             // Authentication successful, store the user ID in the session
-            $_SESSION['user_id'] = $row['id'];
+            $_SESSION['professional_id'] = $row['id'];
+            
             // Redirect to the dashboard page
-            header("Location: search.php");
+            header("Location: professionalsearch.php");
             exit();
         } else {
             // Invalid password, set an error message
@@ -49,13 +58,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="style.css">
-    <title>CSA Login Page</title>
+    <title>CSA Professional Login Page</title>
 </head>
   <body>
     <div class="container">
-    <h1>Login</h1><br>
+    <h1>Professional Login</h1><br>
     <div class="login">
-    <form method="post" action="login.php">
+    <form method="post" action="professionallogin.php">
       <div class="form-group">
         <label for="email">Email:</label>
         <input type="email" id="email" name="email" class="form-control input-small" required>
@@ -71,7 +80,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <input type="submit" value="Login" class="btn btn-primary">
       </div>
     </form>
-    <a id="account" href="account.php">Create New Account</a>
+    <a id="account" href="professionalcreateaccount.php">Create New Account</a>
     </div>
   </body>
 </html>

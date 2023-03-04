@@ -2,23 +2,42 @@ body {
   font-family: sans-serif;
   background-color: #280067;
   color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
 }
 
 input.input-small {
   width: 250px;
   align-items: center;
 }
+.input-small {
+  width: 250px !important;
+  align-items: center;
+  text-align: center;
+}
+
+input.search {
+  text-align: left;
+}
+
 .container {
   max-width: 80%;
   margin: 0 auto;
   text-align: center;
   margin-top: 4em;
-  background-color: #fff;
+  background-color: #fef9fa;
   overflow: auto;
   border-radius: 10px;
   padding: 2em;
   box-shadow: 0 0 10px #ccc;
 }
+
+.login-page{
+  vertical-align: middle;
+}
+
 .container p {
   text-align: left;
   margin: 0 auto;
@@ -36,7 +55,7 @@ input.input-small {
   align-items: center;
 }
 
-.form-group label {
+.login label {
   margin-bottom: 0.5em;
   text-align: left;
   display: inline-block;
@@ -44,33 +63,38 @@ input.input-small {
   margin-right: 9em;
 }
 
+.result-table-container {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
 .result-table {
   margin: 0 auto;
-  overflow: auto;
-  border-spacing: 20px;
+  width: 100%; 
+  overflow-x: auto;
+  max-width: 100%;
 }
 
 .result-table tbody tr {
-  border-radius: 10px;
-  box-shadow: 0 0 10px #ccc;
-  box-sizing: content-box;
+  border-radius: 20px;
+  box-shadow: 0 0 15px #ccc;
 }
 
-.result-table tbody td {
-  padding-left: 1em;
-}
 
 .result-table th {
   cursor: pointer;
-  background-color: #f2f2f2;
-  border-radius: 10px;
+  background-color: #8a297d;
   font-weight: bold;
   padding: 10px;
-  text-align: left;
+  text-align: center;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  position:relative; top: 2px;
+  color: #fef9fa;
 }
 
 .result-table th:hover {
-  background-color: #e0e0e0;
+  background-color: #6b0b5e;
 }
 
 h1 {
@@ -87,9 +111,6 @@ h2 {
   color: #4cf0ec;
 }
 
-p {
-  margin: 20px 0;
-}
 .jumbotron {
   background-color: #fef9fa;
   padding: 20px;
@@ -109,13 +130,13 @@ p {
   font-size: 16px;
   font-weight: bold;
   color: #4cf0ec;
-  background-color: #fff;
+  background-color: #fef9fa;
   transition: all 0.3s ease-in-out;
   text-decoration: none;
 }
 
 .btn:hover {
-  color: #fff;
+  color: #fef9fa;
   background-color: #10ced6;
   text-decoration: none;
 }
@@ -157,24 +178,26 @@ a {
   text-decoration: none;
   color: #10ced6;
 }
-4e278a 10ced6 #account:visited {
+
+#account:visited {
   text-decoration: none;
   color: #b733a5;
 }
+
 .form-control {
-  width: 100%;
-  height: 34px;
-  padding: 6px 12px;
-  font-size: 14px;
-  line-height: 1.42857143;
-  color: #555;
-  background-color: #fff;
-  background-image: none;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%);
-  transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
-  box-sizing: border-box;
+    width: 100%;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fef9fa;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%);
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    box-sizing: border-box;
 }
 
 .form-group {
@@ -188,15 +211,6 @@ a {
 }
 
 input {
-  writing-mode: horizontal-tb !important;
-  text-rendering: auto;
-  letter-spacing: normal;
-  word-spacing: normal;
-  text-transform: none;
-  text-indent: 0px;
-  text-shadow: none;
-  text-align: start;
-  appearance: auto;
 }
 :after,
 :before {

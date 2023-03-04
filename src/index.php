@@ -24,10 +24,10 @@ if ( isset($_POST['logout']) ) {
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-<div class="container jumbotron">
+<div class="container jumbotron login-page">
 <h1>Welcome to CSA</h1><br>
 
-<a href="#" class="btn btn-primary">I'm a Client</a> <a href="login.php" class="btn btn-primary">I'm a Professional</a>
+<a href="clientlogin.php" class="btn btn-primary">I'm a Client</a> <a href="professionallogin.php" class="btn btn-primary">I'm a Professional</a>
 
 </div>
 </body>
