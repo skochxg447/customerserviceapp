@@ -66,8 +66,19 @@ if (isset($_GET['search'])) {
     
     // Execute SQL statement
     $result = $stmt->execute();
+
+    $search_term_2 = $search_term;
+    
+    $db = new SQLite3('db/client_user.db');
+    // Prepare SQL statement to search for clients
+    $stmt = $db->prepare("SELECT * FROM client_users WHERE name LIKE :search_term_2 OR email LIKE :search_term_2 OR phone LIKE :search_term_2");
+    $stmt->bindValue(':search_term_2', "%$search_term_2%", SQLITE3_TEXT);
+    
+    // Execute SQL statement
+    $result_2 = $stmt->execute();
 } else {
     $result = null;
+    $result_2 = null;
 }
 
 ?>
@@ -89,7 +100,7 @@ if (isset($_GET['search'])) {
         </form>
         <p>
             <?php if (isset($result) && $result !== null && $result->numColumns() > 0): 'No Results Found' ?>
-                <h2>Search Results</h2>
+                <h2>Search Results</h2> *KEY* <br>grey = professional input<br>blue = client input
                 <div class="result-table-container">
                 <table class="result-table">
                     <thead>
@@ -107,7 +118,25 @@ if (isset($_GET['search'])) {
                     </thead>
                     <tbody>
                         <?php while ($row = $result->fetchArray()): ?>
-                            <tr>
+                            <tr class="result-1">
+                                <td><?php echo $row['name']; ?></td>
+                                <td><?php echo $row['email']; ?></td>
+                                <td><?php echo $row['phone']; ?></td>
+                                <td><?php echo $row['time_before_greeting'] > 0 ? $row['time_before_greeting'] . 'min' : '-'; ?></td>
+                                <td><?php echo $row['server_formality'] == 1 ? "Very Casual" : ($row['server_formality'] == 2 ? "Casual" : ($row['server_formality'] == 3 ? "Formal" : ($row['server_formality'] == 4 ? "Very Formal" : "-"))); ?></td>
+                                <td><?php echo $row['jokes'] == 1 ? "No" : ($row['jokes'] == 2 ? "Yes" : "-"); ?></td>
+                                <td><?php echo $row['server_frequency']; ?>%</td>
+                                <td><a href="professional_edit.php?id=<?php echo $row['id']; ?>" class="btn btn-secondary">Edit</a></td>
+                                <td>
+                                    <form method="POST" onsubmit="return confirm('Are you sure you want to delete this client?');">
+                                        <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
+                                        <input type="submit" name="delete" value="Delete" class="btn btn-danger">
+                                    </form>
+                                </td>
+                            </tr>
+                        <?php endwhile; ?>
+                        <?php while ($row = $result_2->fetchArray()): ?>
+                            <tr class="result-2">
                                 <td><?php echo $row['name']; ?></td>
                                 <td><?php echo $row['email']; ?></td>
                                 <td><?php echo $row['phone']; ?></td>

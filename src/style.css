@@ -96,6 +96,15 @@ input.search {
   background-color: #6b0b5e;
 }
 
+.result-table tbody tr.result-1 {
+  background-color: #f2f2f2; 
+}
+
+.result-table tbody tr.result-2 {
+  background-color: #e6f9ff; 
+}
+
+
 h1 {
   margin-top: 0px;
   margin-bottom: 10px;
@@ -216,3 +225,4 @@ input {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
+
