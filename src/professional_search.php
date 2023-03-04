@@ -4,7 +4,7 @@ session_start(); // Start the session
 // Check if the user is not logged in
 if (!isset($_SESSION['professional_id'])) {
     // Redirect to the login page
-    header("Location: professionallogin.php");
+    header("Location: professional_login.php");
     exit();
 }
 
@@ -23,35 +23,35 @@ if (isset($_POST['logout'])) {
 
 if (isset($_POST['addclient'])) {
     
-    header('Location: professionaladdclient.php');
+    header('Location: professional_add_client.php');
     return;
 }
 
-$db = new SQLite3('db/clientlist.db');
+$db = new SQLite3('db/client_list.db');
 
 // Create the clients table if it doesn't exist yet
-$db->exec('CREATE TABLE IF NOT EXISTS clients (
+$db->exec('CREATE TABLE IF NOT EXISTS client_info (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL,
-    email TEXT NOT NULL,
-    phone TEXT NOT NULL,
-    time_before_greeting INTEGER NOT NULL,
-    server_formality INTEGER NOT NULL,
-    jokes INTEGER NOT NULL,
-    server_frequency INTEGER NOT NULL
+    name TEXT,
+    email TEXT,
+    phone TEXT,
+    time_before_greeting INTEGER,
+    server_formality INTEGER,
+    jokes INTEGER,
+    server_frequency INTEGER 
 )');
 
 // Check if delete form was submitted
 if (isset($_POST['delete'])) {
     $id = $_POST['id'];
-    $stmt = $db->prepare('DELETE FROM clients WHERE id=:id');
+    $stmt = $db->prepare('DELETE FROM client_info WHERE id=:id');
     $stmt->bindValue(':id', $id, SQLITE3_INTEGER);
     
     // Execute SQL statement
     $result = $stmt->execute();
 
     // Redirect to the search page with success message
-    header("Location: professionalsearch.php?success=Client+deleted");
+    header("Location: professional_search.php?success=Client+deleted");
     exit();
 }
 
@@ -60,7 +60,7 @@ if (isset($_GET['search'])) {
     $search_term = $_GET['search'];
     
     // Prepare SQL statement to search for clients
-    $stmt = $db->prepare("SELECT * FROM clients WHERE name LIKE :search_term OR email LIKE :search_term OR phone LIKE :search_term");
+    $stmt = $db->prepare("SELECT * FROM client_info WHERE name LIKE :search_term OR email LIKE :search_term OR phone LIKE :search_term");
     $stmt->bindValue(':search_term', "%$search_term%", SQLITE3_TEXT);
 
     
@@ -113,9 +113,9 @@ if (isset($_GET['search'])) {
                                 <td><?php echo $row['phone']; ?></td>
                                 <td><?php echo $row['time_before_greeting'] > 0 ? $row['time_before_greeting'] . 'min' : '-'; ?></td>
                                 <td><?php echo $row['server_formality'] == 1 ? "Very Casual" : ($row['server_formality'] == 2 ? "Casual" : ($row['server_formality'] == 3 ? "Formal" : ($row['server_formality'] == 4 ? "Very Formal" : "-"))); ?></td>
-                                <td><?php echo $row['jokes'] == 0 ? "No Jokes" : ($row['jokes'] == 1 ? "Jokes" : "-"); ?></td>
+                                <td><?php echo $row['jokes'] == 1 ? "No" : ($row['jokes'] == 2 ? "Yes" : "-"); ?></td>
                                 <td><?php echo $row['server_frequency']; ?>%</td>
-                                <td><a href="professionaledit.php?id=<?php echo $row['id']; ?>" class="btn btn-secondary">Edit</a></td>
+                                <td><a href="professional_edit.php?id=<?php echo $row['id']; ?>" class="btn btn-secondary">Edit</a></td>
                                 <td>
                                     <form method="POST" onsubmit="return confirm('Are you sure you want to delete this client?');">
                                         <input type="hidden" name="id" value="<?php echo $row['id']; ?>">

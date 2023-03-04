@@ -37,10 +37,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($nameErr == "" && $emailErr == "" && $passwordErr == "") {
         // Insert data into database
-        $db = new SQLite3('db/professionaluser.db');
+        $db = new SQLite3('db/professional_user.db');
 
-        // Create users table if not exists
-        $db->exec("CREATE TABLE IF NOT EXISTS users (
+        // Create professional_users table if not exists
+        $db->exec("CREATE TABLE IF NOT EXISTS professional_users (
             id INTEGER PRIMARY KEY,
             name TEXT,
             email TEXT,
@@ -48,23 +48,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         )");
 
         // Check if email already exists in the database
-        $stmt = $db->prepare("SELECT * FROM users WHERE email = :email");
+        $stmt = $db->prepare("SELECT * FROM professional_users WHERE email = :email");
         $stmt->bindParam(':email', $email);
         $result = $stmt->execute();
         if ($result->fetchArray()) {
-            echo "<div class='container'>Email already exists</div>";
+            echo "<div class='container' style='color: red;'>Email already exists</div><br>";
         } else {
             // Hash password before storing
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-            $stmt = $db->prepare("INSERT INTO users (name, email, password)
+            $stmt = $db->prepare("INSERT INTO professional_users (name, email, password)
             VALUES (:name, :email, :password)");
             $stmt->bindParam(':name', $name);
             $stmt->bindParam(':email', $email);
             $stmt->bindParam(':password', $hashed_password);
 
             if ($stmt->execute()) {
-                echo "<div class='container' style='red">New record created successfully</div>";
+                echo "<div class='container'>New record created successfully</div>";
             } else {
                 echo "Error: " . $stmt->errorInfo()[2];
             }
@@ -104,7 +104,7 @@ function test_input($data) {
         <input type="password" id="password" name="password" class="form-control" required><br><br>
       </p>
         <br><br>
-      <a href="professionallogin.php" class="btn btn-primary">Back</a>
+      <a href="professional_login.php" class="btn btn-primary">Back</a>
       <input type="submit" value="Submit" class="btn btn-primary">
     </form>
     </div>

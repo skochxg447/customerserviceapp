@@ -1,6 +1,45 @@
 <?php
 session_start(); // start the PHP session
 
+// check if the user is logged in
+if (!isset($_SESSION['client_id'])) {
+    header('Location: client_login.php');
+    exit();
+}
+
+$success = null;
+
+// If the form was submitted, update the client record
+if (isset($_POST['save'])) {
+    // get form data
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $phone = $_POST['phone'];
+    $time_before_greeting = $_POST['time_before_greeting'];
+    $server_formality = $_POST['server_formality'];
+    $jokes = $_POST['jokes'];
+    $server_frequency = $_POST['server_frequency'];
+
+    $db = new SQLite3('db/client_user.db');
+
+    // Prepare SQL statement to update client record
+    $stmt = $db->prepare("UPDATE client_users SET phone = :phone, time_before_greeting = :time_before_greeting, server_formality = :server_formality, jokes = :jokes, server_frequency = :server_frequency WHERE id = :id");
+    $stmt->bindValue(':name', $name, SQLITE3_TEXT);
+    $stmt->bindValue(':email', $email, SQLITE3_TEXT);
+    $stmt->bindValue(':phone', $phone, SQLITE3_TEXT);
+    $stmt->bindValue(':time_before_greeting', $time_before_greeting, SQLITE3_INTEGER);
+    $stmt->bindValue(':server_formality', $server_formality, SQLITE3_INTEGER);
+    $stmt->bindValue(':jokes', $jokes, SQLITE3_INTEGER);
+    $stmt->bindValue(':server_frequency', $server_frequency, SQLITE3_INTEGER);
+    $stmt->bindValue(':id', $_SESSION['client_id'], SQLITE3_INTEGER);
+    
+    // Execute SQL statement
+    $result = $stmt->execute();
+    $success = 'Update successful';
+
+}
+
+
 // If the user requested logout go back to index.php
 if (isset($_POST['logout'])) {
     
@@ -14,23 +53,11 @@ if (isset($_POST['logout'])) {
     return;
 }
 
-if (isset($_POST['addclient'])) {
-    
-    header('Location: professionaladdclient.php');
-    return;
-}
-
-// check if the user is logged in
-if (!isset($_SESSION['client_id'])) {
-    header('Location: clientlogin.php');
-    exit();
-}
-
 // connect to the SQLite database
-$db = new SQLite3('clientuser.db');
+$db = new SQLite3('db/client_user.db');
 
 // prepare a SQL statement to select the user with the given id
-$stmt = $db->prepare('SELECT * FROM users WHERE id = :id');
+$stmt = $db->prepare('SELECT * FROM client_users WHERE id = :id');
 
 // bind the parameters to the statement
 $stmt->bindParam(':id', $_SESSION['client_id']);
@@ -49,6 +76,8 @@ $time_before_greeting = isset($user['time_before_greeting']) ? $user['time_befor
 $server_formality = isset($user['server_formality']) ? $user['server_formality'] : '';
 $jokes = isset($user['jokes']) ? $user['jokes'] : '';
 $server_frequency = isset($user['server_frequency']) ? $user['server_frequency'] : '';
+
+
 ?>
 
 <!DOCTYPE html>
@@ -56,15 +85,18 @@ $server_frequency = isset($user['server_frequency']) ? $user['server_frequency']
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>CSA Add Client</title>
+    <title>CSA Dashboard</title>
     <?php require_once "bootstrap.php"; ?>
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
    <div class="container">
    <div class="page-header">
-      <h1>Welcome <?= ucwords($name) ?></h1>
+      <h1>Welcome <?=ucwords($name)?></h1>
    </div>
+   <?php if ($success != null): ?>
+     <div><?= $success?></div>
+   <?php endif; ?>
    <div class="container">
       <form method="post">
          <input type="hidden" name="client_id" value="<?php echo $_SESSION['client_id']; ?>">
@@ -74,7 +106,7 @@ $server_frequency = isset($user['server_frequency']) ? $user['server_frequency']
          </div>
          <div class="form-group">
             <label for="email">Email:</label>
-            <input type="email" class="form-control input-small" id="email" name="email" value="<?= isset($user['email']) ? $user['email'] : '' ?>" required>
+            <input type="text" class="form-control input-small" id="email" name="email" value="<?= isset($user['email']) ? $user['email'] : '' ?>" required>
          </div>
          <div class="form-group">
             <label for="phone">Phone:</label>
@@ -82,7 +114,7 @@ $server_frequency = isset($user['server_frequency']) ? $user['server_frequency']
          </div>
          <div class="form-group">
             <label for="time_before_greeting">Time before greeting (in minutes):</label>
-            <input type="number" class="form-control input-small" id="time_before_greeting" name="time_before_greeting" min="0" max="10" value="<?php echo isset($user['time_before_greeting']) ? $user['time_before_greeting'] : ''; ?>">
+            <input type="number" class="form-control input-small" id="time_before_greeting" name="time_before_greeting" min="0" max="10" value="<?php echo isset($time_before_greeting) ? $time_before_greeting : ''; ?>">
          </div>
          <div class="form-group">
             <label for="server_formality">Server formality:</label>
@@ -111,8 +143,8 @@ $server_frequency = isset($user['server_frequency']) ? $user['server_frequency']
             <label for="server_frequency">Server frequency: how often the server should stop by</label>
             <input type="range" class="form-control-range input-small" id="server_frequency" name="server_frequency" min="0" max="100" value="<?php echo $user['server_frequency']; ?>">
          </div>
+         <input type="submit" name="save" value="Save" class="btn btn-primary">
          <input type="submit" name="logout" value="Logout" class="btn btn-primary">
-         <input type="submit" class="btn btn-primary" name="save">Save</button>
       </form>
    </div>
 </body>

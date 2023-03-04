@@ -8,10 +8,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST["password"];
 
     // Connect to the database
-    $db = new SQLite3('db/professionaluser.db');
+    $db = new SQLite3('db/professional_user.db');
 
-    // Create the users table if it doesn't exist
-    $db->exec('CREATE TABLE IF NOT EXISTS users (
+    // Create the professional_users table if it doesn't exist
+    $db->exec('CREATE TABLE IF NOT EXISTS professional_users (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT,
         email TEXT UNIQUE,
@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     )');
 
     // Prepare the SQL statement to select the user with the given email
-    $stmt = $db->prepare("SELECT * FROM users WHERE email = :email");
+    $stmt = $db->prepare("SELECT * FROM professional_users WHERE email = :email");
 
     // Bind the email parameter to the SQL statement
     $stmt->bindValue(':email', $email, SQLITE3_TEXT);
@@ -35,15 +35,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['professional_id'] = $row['id'];
             
             // Redirect to the dashboard page
-            header("Location: professionalsearch.php");
+            header("Location: professional_search.php");
             exit();
         } else {
             // Invalid password, set an error message
-            $passwordErr = "Invalid password";
+            $error= "Invalid email or password";
         }
     } else {
         // User not found, set an error message
-        $emailErr = "User not found";
+        $error = "Invalid email or password";
     }
 
     // Close the database connection
@@ -64,7 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="container">
     <h1>Professional Login</h1><br>
     <div class="login">
-    <form method="post" action="professionallogin.php">
+    <form method="post" action="professional_login.php">
       <div class="form-group">
         <label for="email">Email:</label>
         <input type="email" id="email" name="email" class="form-control input-small" required>
@@ -74,13 +74,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" class="form-control input-small" required>
       </div>
+    <?php if ($error != null): ?>
+      <br><div style='color: red;'><?= $error?></div>
+    <?php endif; ?>
       <div>
         <br>
         <a href="index.php" class="btn btn-primary">Back</a>
         <input type="submit" value="Login" class="btn btn-primary">
       </div>
     </form>
-    <a id="account" href="professionalcreateaccount.php">Create New Account</a>
+    <a id="account" href="professional_create_account.php">Create New Account</a>
     </div>
   </body>
 </html>

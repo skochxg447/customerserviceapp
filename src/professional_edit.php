@@ -4,7 +4,7 @@ session_start(); // Start the session
 // Check if the user is not logged in
 if (!isset($_SESSION['professional_id'])) {
     // Redirect to the login page
-    header("Location: professionallogin.php");
+    header("Location: professional_login.php");
     exit();
 }
 
@@ -18,7 +18,7 @@ if (isset($_POST['logout'])) {
     return;
 }
 
-$db = new SQLite3('db/clientlist.db');
+$db = new SQLite3('db/client_list.db');
 $client_id = $_GET['id'];
 
 // If the form was submitted, update the client record
@@ -32,7 +32,7 @@ if (isset($_POST['save'])) {
     $server_frequency = $_POST['server_frequency'];
 
     // Prepare SQL statement to update client record
-    $stmt = $db->prepare("UPDATE clients SET name = :name, email = :email, phone = :phone, time_before_greeting = :time_before_greeting, server_formality = :server_formality, jokes = :jokes, server_frequency = :server_frequency WHERE id = :client_id");
+    $stmt = $db->prepare("UPDATE client_info SET name = :name, email = :email, phone = :phone, time_before_greeting = :time_before_greeting, server_formality = :server_formality, jokes = :jokes, server_frequency = :server_frequency WHERE id = :client_id");
     $stmt->bindValue(':name', $name, SQLITE3_TEXT);
     $stmt->bindValue(':email', $email, SQLITE3_TEXT);
     $stmt->bindValue(':phone', $phone, SQLITE3_TEXT);
@@ -46,12 +46,12 @@ if (isset($_POST['save'])) {
     $result = $stmt->execute();
 
     // Redirect to search page
-    header("Location: professionalsearch.php?search=$name");
+    header("Location: professional_search.php?search=$name");
     return;
 }
 
 // Prepare SQL statement to select client record
-$stmt = $db->prepare("SELECT * FROM clients WHERE id = :client_id");
+$stmt = $db->prepare("SELECT * FROM client_info WHERE id = :client_id");
 $stmt->bindValue(':client_id', $client_id, SQLITE3_INTEGER);
 
 // Execute SQL statement
@@ -107,21 +107,21 @@ $client = $result->fetchArray();
                 <label for="jokes">Jokes:</label>
                 <div class="radio">
                     <label>
-                        <input type="radio" name="jokes" value="0" <?php if ($client['jokes'] == 0) echo "checked";?>>No
+                        <input type="radio" name="jokes" value="1" <?php if ($client['jokes'] == 1) echo "checked";?>>No
                     </label>
                 </div>
                 <div class="radio">
                     <label>
-                        <input type="radio" name="jokes" value="1" <?php if ($client['jokes'] == 1) echo "checked";?>>Yes
+                        <input type="radio" name="jokes" value="2" <?php if ($client['jokes'] == 2) echo "checked";?>>Yes
                     </label>
                 </div>
             </div>
             <div class="form-group">
                 <label for="server_frequency">Server frequency: how often the server should stop by</label>
-                <input type="range" class="form-control-range input-small" id="server_frequency" name="server_frequency" min="0" max="100" value="<?php echo $client['server_frequency']; ?>">
+                <input type="range" class="form-control-range input-small" id="server_frequency" name="server_frequency" min="0" max="200" value="<?php echo $client['server_frequency']; ?>">
             </div>
             <button type="submit" class="btn btn-primary" name="save">Save</button>
-            <a href="professionalsearch.php" class="btn btn-primary">Cancel</a>
+            <a href="professional_search.php" class="btn btn-primary">Cancel</a>
         </form>
     </div>
 </body>
