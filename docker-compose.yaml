@@ -7,3 +7,13 @@ services:
     command: php -S 0.0.0.0:8888
     volumes:
       - ./src/db:/app/db
+  develop:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: develop
+    ports:
+      - 8888:8888
+    command: php -S 0.0.0.0:8888 -t src
+    volumes:
+      - ./:/app/
