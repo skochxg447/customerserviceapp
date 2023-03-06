@@ -119,7 +119,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="form-group">
                 <label for="server_frequency">Server Frequency:</label>
                 <input type="range" class="form-control-range input-small" name="server_frequency" min="1" max="200" value="100" class="form-control">
-                <br><pre>^Go Away       Stay Forever^</pre>
             </div>
             <input type="submit" value="Submit" class="btn btn-primary">
             <a href="professional_search.php" class="btn btn-primary">Cancel</a>
