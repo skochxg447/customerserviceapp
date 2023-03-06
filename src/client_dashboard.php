@@ -141,7 +141,7 @@ $server_frequency = isset($user['server_frequency']) ? $user['server_frequency']
          </div>
          <div class="form-group">
             <label for="server_frequency">Server frequency: how often the server should stop by</label>
-            <input type="range" class="form-control-range input-small" id="server_frequency" name="server_frequency" min="0" max="100" value="<?php echo $user['server_frequency']; ?>">
+            <input type="range" class="form-control-range input-small" id="server_frequency" name="server_frequency" min="0" max="200" value="<?php echo $user['server_frequency']; ?>">
          </div>
          <input type="submit" name="save" value="Save" class="btn btn-primary">
          <input type="submit" name="logout" value="Logout" class="btn btn-primary">
