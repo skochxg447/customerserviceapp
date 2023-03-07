@@ -6,7 +6,7 @@ services:
       - 8888:8888
     command: php -S 0.0.0.0:8888
     volumes:
-      - ./src/db:/app/db
+      - ./frontend/db:/app/db
   develop:
     build:
       context: .
@@ -14,6 +14,6 @@ services:
       target: develop
     ports:
       - 8888:8888
-    command: php -S 0.0.0.0:8888 -t src
+    command: php -S 0.0.0.0:8888 -t frontend
     volumes:
       - ./:/app/

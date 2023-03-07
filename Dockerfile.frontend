@@ -28,4 +28,4 @@ RUN make _install-deps
 # Build app
 FROM develop as app
 
-COPY src/ ${HOME}
+COPY frontend/ ${HOME}
