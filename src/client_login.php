@@ -62,6 +62,8 @@ if (isset($_POST['submit'])) { // check if the login form has been submitted
   <title>Client Login</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="google-signin-client_id" content="101571387133-al6k570eiq3c0q9ostvgkphdlb9b8nhn.apps.googleusercontent.com">
+  <?php require_once "bootstrap.php"; ?>
   <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
@@ -82,11 +84,36 @@ if (isset($_POST['submit'])) { // check if the login form has been submitted
 <?php if ($error != null): ?>
   <div style='color: red;'><?= $error?></div><br>
 <?php endif; ?>
+        <div class="g-signin2" data-onsuccess="onSignIn" data-clientid="101571387133-al6k570eiq3c0q9ostvgkphdlb9b8nhn.apps.googleusercontent.com"></div>
+          <script>
+          function onSignIn(googleUser) {
+            // Useful data for your client-side scripts:
+            var profile = googleUser.getBasicProfile();
+            console.log("ID: " + profile.getId()); // Don't send this directly to your server!
+            console.log("Name: " + profile.getName());
+            console.log("Image URL: " + profile.getImageUrl());
+            console.log("Email: " + profile.getEmail());
+
+            // The ID token you need to pass to your backend:
+            var id_token = googleUser.getAuthResponse().id_token;
+            console.log("ID Token: " + id_token);
+          };
+          </script>
+        </div>
+        <a href="#" onclick="signOut();">Sign out</a>
+        <script>
+          function signOut() {
+            var auth2 = gapi.auth2.getAuthInstance();
+            auth2.signOut().then(function () {
+              console.log('User signed out.');
+            });
+          }
+        </script>
         <a href="index.php" class="btn btn-primary">Back</a>
         <input type="submit" name="submit" value="Login" class="btn btn-primary">
       </form>
-    </div>
-    <a id="account" href="client_create_account.php">Create New Account</a>
+    <div><a id="account" href="client_create_account.php">Create New Account</a></div>
   </div>
+  <script src="https://apis.google.com/js/platform.js"></script>
 </body>
 </html>
