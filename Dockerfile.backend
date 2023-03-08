@@ -14,4 +14,4 @@ FROM base as develop
 COPY Makefile ${HOME}
 COPY requirements.txt ${HOME}
 
-RUN make be-install
+RUN make _be-install-deps

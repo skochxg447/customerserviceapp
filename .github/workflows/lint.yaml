@@ -21,9 +21,19 @@ jobs:
           coverage: none
           tools: phpcs
 
-      - name: Run linters
+      - name: Run frontend linters
         uses: wearerequired/lint-action@v2
         with:
           php_codesniffer: true
           # Optional: Ignore warnings
           php_codesniffer_args: "-n"
+
+      - uses: actions/checkout@v2
+      - name: Python Linter
+        uses: sunnysid3up/python-linter@master
+        with:
+          source: "backend"
+          mypy-options: "--ignore-missing-imports --show-error-codes"
+          pylint-options: "--rcfile=setup.cfg"
+          isort-options: "-w 100"
+          django: true

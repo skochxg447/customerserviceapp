@@ -23,7 +23,7 @@ COPY composer.lock ${HOME}
 COPY package.json ${HOME}
 COPY package-lock.json ${HOME}
 
-RUN make _install-deps
+RUN make _fe-install-deps
 
 # Build app
 FROM develop as app
