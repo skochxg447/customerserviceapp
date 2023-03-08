@@ -1,19 +1,29 @@
 version: "3.9"
 services:
-  app:
-    image: customer-service-app
+  fe-app:
+    image: customer-service-app-fe
     ports:
       - 8888:8888
     command: php -S 0.0.0.0:8888
     volumes:
-      - ./frontend/db:/app/db
-  develop:
+      - ./frontend/db:/app/frontend/db
+  fe-develop:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.frontend
       target: develop
     ports:
       - 8888:8888
     command: php -S 0.0.0.0:8888 -t frontend
+    volumes:
+      - ./:/app/
+  be-develop:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+      target: develop
+    ports:
+      - 8000:8000
+    command: python3 manage.py runserver
     volumes:
       - ./:/app/
