@@ -1,11 +1,11 @@
-IMAGE_NAME=customer-service-app
+BASE_IMAGE_NAME=customer-service-app
+INTERACTIVE:=$(shell [ -t 0 ] && echo 1)
 
 #
 # commands a developer will use
 #
 
-build:
-	docker build -t ${IMAGE_NAME} -f Dockerfile .
+build: fe-build be-build
 
 start: build
 	docker-compose up --no-recreate -d app
@@ -13,34 +13,70 @@ start: build
 stop:
 	docker-compose down
 
-develop: build
-	docker-compose up --no-recreate -d develop
+format: fe-develop
+	docker-compose run fe-develop make _format
 
-update-deps:
-	docker-compose run develop make _update-deps
+develop: build
+	docker-compose up --remove-orphans --no-recreate -d fe-develop be-develop
+
+#
+# Frontend-specific commands
+#
+
+fe-build:
+	docker build -t ${BASE_IMAGE_NAME}-fe -f Dockerfile.frontend .
+
+fe-develop: fe-build
+	docker-compose up --remove-orphans --no-recreate -d fe-develop
+
+fe-save-deps:
+	docker-compose run fe-develop make _fe-save-deps
+
+_fe-install-deps:
+	echo "installing deps"
+	echo ${INTERACTIVE}
+	echo "installing deps"
+	npm i
+
+_fe-save-deps: _fe-install-deps
+	npm update
+
+_fe-format:
+	npx prettier --write .
+
+npm-install:
+	docker-compose run fe-develop npm install --save-exact $(filter-out $@, $(MAKECMDGOALS))
 
 # php-install:
 #   unfortunately must add packages manually to composer.json
 
-npm-install:
-	docker-compose run develop npm install --save-exact $(filter-out $@, $(MAKECMDGOALS))
-
-format: develop
-	docker-compose run develop npx prettier --write .
-
 #
-# commands to be used by docker-container or if a user knows what they are doing
+# Backend-specific commands
 #
 
-# TODO: un-comment-out when php packages are added
-_install-deps:
-	npm i
-# 	composer install
+be-build:
+	docker build -t ${BASE_IMAGE_NAME}-be -f Dockerfile.backend .
 
-# TODO: un-comment-out when php packages are added
-_update-deps:
-	npm update
-# 	composer update
+be-develop: be-build
+	docker-compose up --remove-orphans --no-recreate -d be-develop
+
+be-update-deps:
+	docker-compose run be-develop make _be-update-deps
+
+_be-install-deps:
+	pip3 install -r requirements.txt
+
+_be-save-deps:
+	pip3 freeze > requirements.txt
+
+_be-format:
+	shed backend
+
+be-save-deps:
+	docker-compose run be-develop make _be-save-deps
+
+pip-install:
+	docker-compose run be-develop pip3 install $(filter-out $@, $(MAKECMDGOALS))
 
 #
 # to enable cli args

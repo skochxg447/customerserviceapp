@@ -1,0 +1,17 @@
+FROM python:3.10-slim-bullseye as base
+
+ENV HOME /app
+WORKDIR ${HOME}
+
+RUN apt-get update && apt-get install -y \
+    software-properties-common \
+    make
+
+
+# Install dependencies
+FROM base as develop
+
+COPY Makefile ${HOME}
+COPY requirements.txt ${HOME}
+
+RUN make _be-install-deps

@@ -44,13 +44,13 @@ make npm-install <package-name>
 
 or
 
-NOTE: this currently isn't functional because we aren't using any PHP dependencies yet
-
 ```shell
-make php-install
+make pip-install <package-name>
 ```
 
 ## Run Formatting
+
+Be sure to do this before every commit.
 
 ```shell
 make format
