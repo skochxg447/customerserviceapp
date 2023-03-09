@@ -4,11 +4,11 @@ session_start(); // Start the session
 // Check if the user is not logged in
 if (!isset($_SESSION['professional_id'])) {
     // Redirect to the login page
-    header("Location: professional_login.php");
+    header("Location: login.php");
     exit();
 }
 
-// If the user requested logout go back to index.php
+// If the user requested logout go back to ../../index.php
 if (isset($_POST['logout'])) {
     // Unset all session variables
     session_unset();
@@ -16,7 +16,7 @@ if (isset($_POST['logout'])) {
     // Destroy the session
     session_destroy();
 
-    header('Location: index.php');
+    header('Location: ../../index.php');
     return;
 }
 
@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $server_frequency = isset($_POST['server_frequency']) ? $_POST['server_frequency'] : 0;
 
     // Open SQLite database connection
-    $db = new SQLite3('db/client_list.db');
+    $db = new SQLite3('../db/client_list.db');
 
     // Create the clients table if it doesn't exist yet
     $db->exec('CREATE TABLE IF NOT EXISTS client_info (
@@ -57,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->execute();
 
     // Redirect the user to the client list page
-    header("Location: professional_search.php?search=$name");
+    header("Location: search.php?search=$name");
     return;
 }
 ?>
@@ -68,8 +68,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>CSA Add Client</title>
-    <?php require_once "bootstrap.php"; ?>
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="../style.css">
 </head>
 <body>
     <div class="container">
@@ -121,7 +122,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <input type="range" class="form-control-range input-small" name="server_frequency" min="1" max="200" value="100" class="form-control">
             </div>
             <input type="submit" value="Submit" class="btn btn-primary">
-            <a href="professional_search.php" class="btn btn-primary">Cancel</a>
+            <a href="search.php" class="btn btn-primary">Cancel</a>
         </form>
     </div>
 </body>

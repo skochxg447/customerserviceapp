@@ -8,7 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST["password"];
 
     // Connect to the database
-    $db = new SQLite3('db/professional_user.db');
+    $db = new SQLite3('../db/professional_user.db');
 
     // Create the professional_users table if it doesn't exist
     $db->exec('CREATE TABLE IF NOT EXISTS professional_users (
@@ -35,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['professional_id'] = $row['id'];
             
             // Redirect to the dashboard page
-            header("Location: professional_search.php");
+            header("Location: search.php");
             exit();
         } else {
             // Invalid password, set an error message
@@ -61,29 +61,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>CSA Professional Login Page</title>
 </head>
   <body>
-    <div class="container">
-    <h1>Professional Login</h1><br>
-    <div class="login">
-    <form method="post" action="professional_login.php">
-      <div class="form-group">
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" class="form-control input-small" required>
+    <div class="row">
+    <div class="col-12 col-lg-3">
+    <div class="container col-12 col-lg-5">
+      <div class="row">
+        <h1>Professional Login</h1>
       </div>
-      <br>
-      <div class="form-group">
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" class="form-control input-small" required>
-      </div>
-    <?php if ($error != null): ?>
-      <br><div style='color: red;'><?= $error?></div>
-    <?php endif; ?>
-      <div>
-        <br>
-        <a href="index.php" class="btn btn-primary">Back</a>
-        <input type="submit" value="Login" class="btn btn-primary">
-      </div>
-    </form>
-    <a id="account" href="professional_create_account.php">Create New Account</a>
+        <div class="login">
+        <form method="post" action="login.php">
+          <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" class="form-control input-small" required>
+          </div>
+          <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" class="form-control input-small" required>
+          </div>
+        <?php if ($error != null): ?>
+          <br><div style='color: red;'><?= $error?></div>
+        <?php endif; ?>
+          <div>
+            <br>
+            <a href="../../index.php" class="btn btn-primary">Back</a>
+            <input type="submit" value="Login" class="btn btn-primary">
+          </div>
+        </form>
+        <a id="account" href="create_account.php">Create New Account </a>
+     </div>
     </div>
   </body>
 </html>

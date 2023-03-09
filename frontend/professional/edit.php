@@ -4,21 +4,21 @@ session_start(); // Start the session
 // Check if the user is not logged in
 if (!isset($_SESSION['professional_id'])) {
     // Redirect to the login page
-    header("Location: professional_login.php");
+    header("Location: login.php");
     exit();
 }
 
-// If the user requested logout go back to index.php
+// If the user requested logout go back to ../../index.php
 if (isset($_POST['logout'])) {
     // Unset all session variables
     session_unset();
     // Destroy the session
     session_destroy();
-    header('Location: index.php');
+    header('Location: ../../index.php');
     return;
 }
 
-$db = new SQLite3('db/client_list.db');
+$db = new SQLite3('../db/client_list.db');
 $client_id = $_GET['id'];
 
 // If the form was submitted, update the client record
@@ -46,7 +46,7 @@ if (isset($_POST['save'])) {
     $result = $stmt->execute();
 
     // Redirect to search page
-    header("Location: professional_search.php?search=$name");
+    header("Location: search.php?search=$name");
     return;
 }
 
@@ -66,10 +66,11 @@ $client = $result->fetchArray();
 <!DOCTYPE html>
 <html>
 <head>
-    <?php require_once "bootstrap.php"; ?>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="../style.css">
     <title>Edit Client</title>
 </head>
 <body>
@@ -121,7 +122,7 @@ $client = $result->fetchArray();
                 <input type="range" class="form-control-range input-small" id="server_frequency" name="server_frequency" min="0" max="200" value="<?php echo $client['server_frequency']; ?>">
             </div>
             <button type="submit" class="btn btn-primary" name="save">Save</button>
-            <a href="professional_search.php" class="btn btn-primary">Cancel</a>
+            <a href="search.php" class="btn btn-primary">Cancel</a>
         </form>
     </div>
 </body>

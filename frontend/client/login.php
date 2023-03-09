@@ -9,7 +9,7 @@ if (isset($_POST['submit'])) { // check if the login form has been submitted
   $password = $_POST['password'];
 
   // connect to the SQLite database
-  $db = new SQLite3('db/client_user.db');  
+  $db = new SQLite3('../db/client_user.db');  
 
   // Create users table if not exists
   $db->exec("CREATE TABLE IF NOT EXISTS client_users (
@@ -43,7 +43,7 @@ if (isset($_POST['submit'])) { // check if the login form has been submitted
     $_SESSION['client_id'] = $user['id'];
 
     // redirect to the clientprofessionaledit.php page
-    header('Location: client_dashboard.php');
+    header('Location: dashboard.php');
     exit();
 
   } else { // if no user was found with the given email or password did not verify
@@ -63,11 +63,12 @@ if (isset($_POST['submit'])) { // check if the login form has been submitted
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="google-signin-client_id" content="101571387133-al6k570eiq3c0q9ostvgkphdlb9b8nhn.apps.googleusercontent.com">
-  <?php require_once "bootstrap.php"; ?>
-  <link rel="stylesheet" type="text/css" href="style.css">
+  <!-- <link href="../bootstrap.min.css" rel="stylesheet"> -->
+  <link rel="stylesheet" type="text/css" href="../style.css">
 </head>
 <body>
   <div class="container">
+    <div class="col-12">
     <h1>Client Login</h1>
     <div class="login">
       <form method="post">
@@ -75,7 +76,6 @@ if (isset($_POST['submit'])) { // check if the login form has been submitted
             <label for="email">Email:</label>
             <input type="email" name="email" id="email" class="form-control input-small" required>
         </div>
-        <br>
         <div class="form-group">
             <label for="password">Password:</label>
             <input type="password" name="password" id="password" class="form-control input-small" required>
@@ -100,7 +100,6 @@ if (isset($_POST['submit'])) { // check if the login form has been submitted
           };
           </script>
         </div>
-        <a href="#" onclick="signOut();">Sign out</a>
         <script>
           function signOut() {
             var auth2 = gapi.auth2.getAuthInstance();
@@ -109,11 +108,13 @@ if (isset($_POST['submit'])) { // check if the login form has been submitted
             });
           }
         </script>
-        <a href="index.php" class="btn btn-primary">Back</a>
+        <a href="../../../index.php" class="btn btn-primary">Back</a>
         <input type="submit" name="submit" value="Login" class="btn btn-primary">
       </form>
-    <div><a id="account" href="client_create_account.php">Create New Account</a></div>
+    <div><a id="account" href="create_account.php">Create New Account</a></div>
   </div>
   <script src="https://apis.google.com/js/platform.js"></script>
+  </div>
+</div>
 </body>
 </html>

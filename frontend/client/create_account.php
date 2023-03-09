@@ -4,16 +4,17 @@ session_start();
 $nameErr = $emailErr = $passwordErr = "";
 $name = $email = $password = "";
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (empty($_POST["name"])) {
-        $nameErr = "Name is required";
-    } else {
-        $name = test_input($_POST["name"]);
-        // check if name only contains letters and whitespace
-        if (!preg_match("/^[a-zA-Z ]*$/",$name)) {
-            $nameErr = "Only letters and white space allowed";
-        }
+if (empty($_POST["name"])) {
+    $nameErr = "Name is required";
+} else {
+    $name = test_input($_POST["name"]);
+    // check if name only contains letters and whitespace
+    if (!preg_match("/^[a-zA-Z ]*$/",$name)) {
+        $nameErr = "Only letters and white space allowed";
+    } else if (trim($name) == '') {
+        $nameErr = "Name cannot be just spaces";
     }
+
 
     if (empty($_POST["email"])) {
         $emailErr = "Email is required";
@@ -37,18 +38,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($nameErr == "" && $emailErr == "" && $passwordErr == "") {
         // Insert data into database
-        $db = new SQLite3('db/professional_user.db');
+        $db = new SQLite3('../db/client_user.db');
 
-        // Create professional_users table if not exists
-        $db->exec("CREATE TABLE IF NOT EXISTS professional_users (
+        // Create client_users table if not exists
+        $db->exec("CREATE TABLE IF NOT EXISTS client_users (
             id INTEGER PRIMARY KEY,
             name TEXT,
             email TEXT,
-            password TEXT
-        )");
+            password TEXT,
+            email TEXT,
+            phone TEXT,
+            time_before_greeting INTEGER,
+            server_formality INTEGER,
+            jokes INTEGER,
+            server_frequency INTEGER
+
+            )");
 
         // Check if email already exists in the database
-        $stmt = $db->prepare("SELECT * FROM professional_users WHERE email = :email");
+        $stmt = $db->prepare("SELECT * FROM client_users WHERE email = :email");
         $stmt->bindParam(':email', $email);
         $result = $stmt->execute();
         if ($result->fetchArray()) {
@@ -57,14 +65,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Hash password before storing
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-            $stmt = $db->prepare("INSERT INTO professional_users (name, email, password)
+            $stmt = $db->prepare("INSERT INTO client_users (name, email, password)
             VALUES (:name, :email, :password)");
             $stmt->bindParam(':name', $name);
             $stmt->bindParam(':email', $email);
             $stmt->bindParam(':password', $hashed_password);
 
             if ($stmt->execute()) {
-                echo "<div class='container'>New record created successfully</div>";
+                echo "<div class='container'>New record created successfully</div><br>";
             } else {
                 echo "Error: " . $stmt->errorInfo()[2];
             }
@@ -73,7 +81,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $db->close();
     }
 }
-
 
 function test_input($data) {
     $data = trim($data);
@@ -89,7 +96,7 @@ function test_input($data) {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>CSA New Account</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="../style.css">
 </head>
 <body>
     <div class="container">
@@ -104,7 +111,7 @@ function test_input($data) {
         <input type="password" id="password" name="password" class="form-control" required><br><br>
       </p>
         <br><br>
-      <a href="professional_login.php" class="btn btn-primary">Back</a>
+      <a href="client_login.php" class="btn btn-primary">Back</a>
       <input type="submit" value="Submit" class="btn btn-primary">
     </form>
     </div>

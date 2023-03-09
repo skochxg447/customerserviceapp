@@ -2,10 +2,6 @@ body {
   font-family: sans-serif;
   background-color: #280067;
   color: #000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
 }
 
 input.input-small {
@@ -23,11 +19,10 @@ input.search {
 }
 
 .container {
-  max-width: 80%;
-  margin: 0 auto;
+  margin: 1em auto;
   text-align: center;
   background-color: #fef9fa;
-  overflow: auto;
+  overflow-y: scroll;
   border-radius: 10px;
   padding: 2em;
   box-shadow: 0 0 10px #ccc;
@@ -210,6 +205,7 @@ a {
 
 .form-group {
   text-align: center;
+  margin: 1em;
 }
 
 #search {

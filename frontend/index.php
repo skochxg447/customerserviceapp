@@ -1,6 +1,6 @@
 <?php
 
-// If the user requested logout go back to index.php
+// If the user requested logout go back to ../../index.php
 if ( isset($_POST['logout']) ) {
     
         // Unset all session variables
@@ -21,13 +21,13 @@ if ( isset($_POST['logout']) ) {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Customer Service App</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="../style.css">
 </head>
 <body>
 <div class="container jumbotron login-page">
 <h1>Welcome to CSA</h1><br>
 
-<a href="client_login.php" class="btn btn-primary">I'm a Client</a> <a href="professional_login.php" class="btn btn-primary">I'm a Professional</a>
+<a href="client/login.php" class="btn btn-primary">I'm a Client</a> <a href="professional/login.php" class="btn btn-primary">I'm a Professional</a>
 
 </div>
 </body>
