@@ -44,8 +44,6 @@ _fe-save-deps: _fe-install-deps
 _fe-format:
 	npx prettier --write .
 
-fe-install: npm-install
-
 npm-install:
 	docker-compose run fe-develop npm install --save-exact $(filter-out $@, $(MAKECMDGOALS))
 
@@ -68,22 +66,17 @@ be-update-deps:
 _be-install-deps:
 	pip3 install -r requirements.txt
 
-_be-save-deps: _be-install-deps
+_be-save-deps:
 	pip3 freeze > requirements.txt
 
 _be-format:
-	isort --float-to-top -r backend
-	autoflake --remove-all-unused-imports --recursive --remove-unused-variables --in-place backend
-	black backend
+	shed backend
 
-be-install: pip-install
+be-save-deps:
+	docker-compose run be-develop make _be-save-deps
 
 pip-install:
 	docker-compose run be-develop pip3 install $(filter-out $@, $(MAKECMDGOALS))
-
-#
-# commands to be used by docker-container or if a user knows what they are doing
-#
 
 #
 # to enable cli args

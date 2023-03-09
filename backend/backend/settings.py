@@ -25,12 +25,12 @@ SECRET_KEY = ""
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS: list = []
 
 
 # Application definition
 
-INSTALLED_APPS = [
+INSTALLED_APPS: list = [
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
 ]
 
-MIDDLEWARE = [
+MIDDLEWARE: list = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -51,7 +51,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = "backend.urls"
 
-TEMPLATES = [
+TEMPLATES: list = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": [],

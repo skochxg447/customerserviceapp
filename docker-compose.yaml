@@ -1,6 +1,6 @@
 version: "3.9"
 services:
-  fe-app:
+  fe-app: # TODO: how to use this in prod?
     image: customer-service-app-fe
     ports:
       - 8888:8888
