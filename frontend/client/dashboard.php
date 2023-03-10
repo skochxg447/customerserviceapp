@@ -81,7 +81,7 @@ $server_frequency = isset($user['server_frequency']) ? $user['server_frequency']
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -101,11 +101,12 @@ $server_frequency = isset($user['server_frequency']) ? $user['server_frequency']
      <?php endif; ?>
    <div class="row">
     <div class="container col-12 col-lg-3">
-      <iframe src="https://calendar.google.com/calendar/embed?src=grantwkoch%40gmail.com&ctz=America%2FLos_Angeles" style="border: 0" width="100%" height="100%" frameborder="0" scrolling="yes"></iframe>
+      <h3>Schedule</h3>
+      <iframe src="https://calendar.google.com/calendar/embed?src=grantwkoch%40gmail.com&ctz=America%2FLos_Angeles" style="border: 0" width="100%" height="75%" frameborder="0" scrolling="yes"></iframe>
       <p>Google Calendar API Quickstart</p>
 
       <!--Add buttons to initiate auth sequence and sign out-->
-      <button class="btn"
+      <button class="btn btn-primary"
        id="authorize_button" onclick="handleAuthClick()">Authorize</button>
            <script>
              function signOut() {
@@ -120,6 +121,7 @@ $server_frequency = isset($user['server_frequency']) ? $user['server_frequency']
       <pre id="content" style="white-space: pre-wrap;"></pre>
     </div>
     <div class="container col-12 col-lg-5 text-center">
+      <h3>Your Information</h3>
       <p>
       <form method="post">
          <input type="hidden" name="client_id" value="<?php echo $_SESSION['client_id']; ?>">
@@ -153,12 +155,12 @@ $server_frequency = isset($user['server_frequency']) ? $user['server_frequency']
             <label for="jokes">Jokes:</label>
             <div class="radio">
                <label>
-               <input type="radio" name="jokes" value="0" <?php if (isset($user['jokes']) && $user['jokes'] == 0) echo "checked"; ?>>No
+               <input type="radio" name="jokes" value="0" <?php if (isset($user['jokes']) && $user['jokes'] == 0) echo "checked"; ?>> No
                </label>
             </div>
             <div class="radio">
                <label>
-               <input type="radio" name="jokes" value="1" <?php if (isset($user['jokes']) && $user['jokes'] == 1) echo "checked"; ?>>Yes
+               <input type="radio" name="jokes" value="1" <?php if (isset($user['jokes']) && $user['jokes'] == 1) echo "checked"; ?>> Yes
                </label>
             </div>
          </div>
@@ -173,7 +175,25 @@ $server_frequency = isset($user['server_frequency']) ? $user['server_frequency']
     </p>
     </div>
     <div class="container col-12 col-lg-3">
-      <iframe src="https://calendar.google.com/calendar/embed?src=grantwkoch%40gmail.com&ctz=America%2FLos_Angeles" style="border: 0" width="275" height="200" frameborder="0" scrolling="no"></iframe>
+      <h3>Share Preferences</h3>
+      <p>
+        <label for="search">Enter a location:</label>
+        <input id="search" type="text">
+        <div id="map"></div>
+        <ul>
+          <li><img src="#"></li>
+          <li><img src="#"></li>
+          <li><img src="#"></li>
+          <li><img src="#"></li>
+          <li><img src="#"></li>
+          <li><img src="#"></li>
+          <li><img src="#"></li>
+          <li><img src="#"></li>
+          <li><img src="#"></li>
+          <li><img src="#"></li>
+          <li><img src="#"></li>
+        </ul>
+      </p>
     </div>
    </div>
   <script type="text/javascript">
@@ -337,6 +357,7 @@ $server_frequency = isset($user['server_frequency']) ? $user['server_frequency']
         inst.setEvents(events);
     }, 'jsonp');
   </script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCC08blSX9P-B7rdAaa4XgAvbySVgO2QAw&libraries=places"></script>
   <script src="https://apis.google.com/js/api.js" onload="gapiLoaded()"></script>
   <script src="https://accounts.google.com/gsi/client" onload="gisLoaded()"></script>
 </body>

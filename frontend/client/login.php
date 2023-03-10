@@ -57,18 +57,20 @@ if (isset($_POST['submit'])) { // check if the login form has been submitted
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <title>Client Login</title>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
   <meta name="google-signin-client_id" content="101571387133-al6k570eiq3c0q9ostvgkphdlb9b8nhn.apps.googleusercontent.com">
-  <!-- <link href="../bootstrap.min.css" rel="stylesheet"> -->
+  <link href="../bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="../style.css">
 </head>
 <body>
-  <div class="container">
-    <div class="col-12">
+  <div class="row">
+  <div class="col-12 col-lg-3"></div>
+  <div class="col-12 col-lg-6">
+    <div class="container">
     <h1>Client Login</h1>
     <div class="login">
       <form method="post">
@@ -80,41 +82,40 @@ if (isset($_POST['submit'])) { // check if the login form has been submitted
             <label for="password">Password:</label>
             <input type="password" name="password" id="password" class="form-control input-small" required>
         </div>
-        <br>
 <?php if ($error != null): ?>
   <div style='color: red;'><?= $error?></div><br>
 <?php endif; ?>
-        <div class="g-signin2" data-onsuccess="onSignIn" data-clientid="101571387133-al6k570eiq3c0q9ostvgkphdlb9b8nhn.apps.googleusercontent.com"></div>
-          <script>
-          function onSignIn(googleUser) {
-            // Useful data for your client-side scripts:
-            var profile = googleUser.getBasicProfile();
-            console.log("ID: " + profile.getId()); // Don't send this directly to your server!
-            console.log("Name: " + profile.getName());
-            console.log("Image URL: " + profile.getImageUrl());
-            console.log("Email: " + profile.getEmail());
-
-            // The ID token you need to pass to your backend:
-            var id_token = googleUser.getAuthResponse().id_token;
-            console.log("ID Token: " + id_token);
-          };
-          </script>
-        </div>
-        <script>
-          function signOut() {
-            var auth2 = gapi.auth2.getAuthInstance();
-            auth2.signOut().then(function () {
-              console.log('User signed out.');
-            });
-          }
-        </script>
+        <div class="g-signin2" id="goog" data-onsuccess="onSignIn" data-clientid="101571387133-al6k570eiq3c0q9ostvgkphdlb9b8nhn.apps.googleusercontent.com"></div>
         <a href="../../../index.php" class="btn btn-primary">Back</a>
         <input type="submit" name="submit" value="Login" class="btn btn-primary">
       </form>
     <div><a id="account" href="create_account.php">Create New Account</a></div>
   </div>
+  <script>
+  function onSignIn(googleUser) {
+    // Useful data for your client-side scripts:
+    var profile = googleUser.getBasicProfile();
+    console.log("ID: " + profile.getId()); // Don't send this directly to your server!
+    console.log("Name: " + profile.getName());
+    console.log("Image URL: " + profile.getImageUrl());
+    console.log("Email: " + profile.getEmail());
+
+    // The ID token you need to pass to your backend:
+    var id_token = googleUser.getAuthResponse().id_token;
+    console.log("ID Token: " + id_token);
+  };
+  </script>
+  <script>
+    function signOut() {
+      var auth2 = gapi.auth2.getAuthInstance();
+      auth2.signOut().then(function () {
+        console.log('User signed out.');
+      });
+    }
+  </script>
   <script src="https://apis.google.com/js/platform.js"></script>
   </div>
+  <div class="col-12 col-lg-3"> </div>
 </div>
 </body>
 </html>

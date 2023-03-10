@@ -57,37 +57,61 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="google-signin-client_id" content="101571387133-al6k570eiq3c0q9ostvgkphdlb9b8nhn.apps.googleusercontent.com">
+    <link href="../bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="../style.css">
     <title>CSA Professional Login Page</title>
 </head>
   <body>
-    <div class="row">
-    <div class="col-12 col-lg-3">
-    <div class="container col-12 col-lg-5">
-      <div class="row">
-        <h1>Professional Login</h1>
+  <div class="row">
+  <div class="col-12 col-lg-3"></div>
+  <div class="col-12 col-lg-6">
+    <div class="container">
+    <h1>Professional Login</h1>
+    <div class="login">
+    <form method="post" action="login.php">
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" class="form-control input-small" required>
       </div>
-        <div class="login">
-        <form method="post" action="login.php">
-          <div class="form-group">
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" class="form-control input-small" required>
-          </div>
-          <div class="form-group">
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" class="form-control input-small" required>
-          </div>
-        <?php if ($error != null): ?>
-          <br><div style='color: red;'><?= $error?></div>
-        <?php endif; ?>
-          <div>
-            <br>
-            <a href="../../index.php" class="btn btn-primary">Back</a>
-            <input type="submit" value="Login" class="btn btn-primary">
-          </div>
-        </form>
-        <a id="account" href="create_account.php">Create New Account </a>
-     </div>
+      <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" class="form-control input-small" required>
+      </div>
+    <?php if ($error != null): ?>
+      <br><div style='color: red;'><?= $error?></div>
+    <?php endif; ?>
+    <div class="g-signin2" id="goog" data-onsuccess="onSignIn" data-clientid="101571387133-al6k570eiq3c0q9ostvgkphdlb9b8nhn.apps.googleusercontent.com"></div>
+      <div>
+        <a href="../../index.php" class="btn btn-primary">Back</a>
+        <input type="submit" value="Login" class="btn btn-primary">
+      </div>
+    </form>
+    <a id="account" href="create_account.php">Create New Account </a>
     </div>
+    <div class="col-12 col-lg-3"></div>
+    <script>
+  function onSignIn(googleUser) {
+    // Useful data for your client-side scripts:
+    var profile = googleUser.getBasicProfile();
+    console.log("ID: " + profile.getId()); // Don't send this directly to your server!
+    console.log("Name: " + profile.getName());
+    console.log("Image URL: " + profile.getImageUrl());
+    console.log("Email: " + profile.getEmail());
+
+    // The ID token you need to pass to your backend:
+    var id_token = googleUser.getAuthResponse().id_token;
+    console.log("ID Token: " + id_token);
+  };
+  </script>
+  <script>
+    function signOut() {
+      var auth2 = gapi.auth2.getAuthInstance();
+      auth2.signOut().then(function () {
+        console.log('User signed out.');
+      });
+    }
+  </script>
+  <script src="https://apis.google.com/js/platform.js"></script>
   </body>
 </html>

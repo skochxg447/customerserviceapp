@@ -84,15 +84,18 @@ if (isset($_GET['search'])) {
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>CSA Client Search</title>
+    <link href="../bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="../style.css">
 </head>
 <body>
     <div class="container">
+     <div class="row">
+      <div class="col-12">
         <h1>Client Search</h1>
         <form method="get">
             <input type="text" name="search" placeholder="Search for clients..." class="form-control input-small search" id="search">
@@ -163,6 +166,8 @@ if (isset($_GET['search'])) {
             <input type="submit" name="logout" value="Logout" class="btn btn-primary">
             <input type="submit" name="addclient" value="Add Client" class="btn btn-primary">
         </form>
+        </div>
+      </div>
     </div>
 </body>
 </html>
